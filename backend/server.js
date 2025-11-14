@@ -37,4 +37,6 @@ app.use("/api/books", bookRoutes);
 // Wishlist Routes
 const wishlistRoutes = require("./routes/WishListRoutes");
 app.use("/api/wishlist", wishlistRoutes);
-
+// Order Routes
+const orderRoutes = require("./routes/OrderRoutes");
+app.use("/api/orders", orderRoutes);
