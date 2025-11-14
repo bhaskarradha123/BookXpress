@@ -16,7 +16,7 @@ app.use(express.json()); //application middleware
 mongoose.connect(env.config().parsed.MONGODB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-//   dbName: "userDB"
+  dbName: "bookXpress",
 })
 .then(() => {
   console.log("Connected to MongoDB");
