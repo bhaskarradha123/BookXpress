@@ -25,11 +25,16 @@ mongoose.connect(process.env.MONGODB_URL, {
   console.error("MongoDB connection error:", error);
 });
 
-// Routes
+// Auth Routes
 const authRoutes = require("./routes/AuthRoutes");
 app.use("/api/auth", authRoutes);
-
+// Cart Routes
+const cartRoutes = require("./routes/CarRoutes");
+app.use("/api/cart", cartRoutes);
+// Book Routes
 const bookRoutes = require("./routes/BookRoutes");
-
 app.use("/api/books", bookRoutes);
+// Wishlist Routes
+const wishlistRoutes = require("./routes/WishListRoutes");
+app.use("/api/wishlist", wishlistRoutes);
 
