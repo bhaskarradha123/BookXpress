@@ -1,18 +1,14 @@
-const express=require('express'); // to deal with express server
-const mongoose=require('mongoose');// to deal with db
-const cors=require('cors');// to deal with frontend cors
-const env=require('dotenv'); // to deal with environment variables
-// const userRoutes=require('./routes/userRoute');//to deal with end points
+const express=require('express'); 
+const mongoose=require('mongoose');
+const cors=require('cors');
+const env=require('dotenv'); 
+// const userRoutes=require('./routes/userRoute');
 
 
-//creating application
 const app=express();
-app.use(cors()); //application middleware to connect frontend
-app.use(express.json()); //application middleware
-// app.use('/', userRoutes); //application middleware to use user routes
-
-
-//connecting to db
+app.use(cors()); 
+app.use(express.json()); 
+// app.use('/', userRoutes); 
 mongoose.connect(env.config().parsed.MONGODB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
