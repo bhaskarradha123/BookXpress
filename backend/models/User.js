@@ -20,13 +20,15 @@ const userSchema = new mongoose.Schema(
     },
 
     phone: { type: Number, unique: true },
-    
+
     address: {
       street: String,
       city: String,
       state: String,
       pinCode: String,
     },
+    otp: { type: String },
+    otpExpire: { type: Date },
   },
   { timestamps: true }
 );

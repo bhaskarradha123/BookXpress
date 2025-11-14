@@ -40,3 +40,6 @@ app.use("/api/wishlist", wishlistRoutes);
 // Order Routes
 const orderRoutes = require("./routes/OrderRoutes");
 app.use("/api/orders", orderRoutes);
+// passwords
+
+

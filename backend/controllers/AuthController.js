@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const sendEmail = require("../utils/sendEmail");
 
 exports.register = async (req, res) => {
   try {
@@ -18,6 +19,18 @@ exports.register = async (req, res) => {
       password: hashedPassword,
       role,
     });
+     // ✔ Send Welcome Email
+    await sendEmail(
+      user.email,
+      "Welcome to Book Store 📚",
+      `
+        <h2>Hello ${user.name}!</h2>
+        <p>Your account is successfully registered.</p>
+        <p>Enjoy browsing and buying books!</p>
+        <br>
+        <p>Regards,<br>BookStore Team</p>
+      `
+    );
 
     res.status(201).json({ message: "Account created successfully" });
   } catch (err) {
@@ -72,3 +85,5 @@ exports.getMe = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+
