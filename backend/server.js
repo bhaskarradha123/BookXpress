@@ -29,3 +29,7 @@ mongoose.connect(process.env.MONGODB_URL, {
 const authRoutes = require("./routes/AuthRoutes");
 app.use("/api/auth", authRoutes);
 
+const bookRoutes = require("./routes/BookRoutes");
+
+app.use("/api/books", bookRoutes);
+
