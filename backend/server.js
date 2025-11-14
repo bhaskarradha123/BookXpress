@@ -19,10 +19,10 @@ mongoose.connect(env.config().parsed.MONGODB_URL, {
   dbName: "bookXpress",
 })
 .then(() => {
-  console.log("Connected to MongoDB");
-  app.listen(env.config().parsed.PORT, () => {
-    console.log(`Server running on port ${env.config().parsed.PORT}`);
-  });
+  app.listen(()=>{
+    console.log("Running");
+    
+ });
 })
 .catch((error) => {
   console.error("MongoDB connection error:", error);
