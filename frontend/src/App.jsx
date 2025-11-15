@@ -68,7 +68,7 @@ function App() {
           element={user ? <UpdateBook /> : <Login />}
         />
 
-        <Route path="/search" element={<SearchList />} />
+        <Route path="/search/:query" element={<SearchList />} />
 
       </Routes>
     </>

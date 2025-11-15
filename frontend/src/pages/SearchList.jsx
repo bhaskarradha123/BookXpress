@@ -1,22 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
+import { searchBooks } from "../api/axios";
 
 const SearchList = () => {
   const location = useLocation();
   const [books, setBooks] = useState([]);
-
-  const query = new URLSearchParams(location.search).get("query");
+  const { query } = useParams();
 
   useEffect(() => {
     if (query) {
+      console.log(query,'query');
       fetchBooks(query);
     }
   }, [query]);
 
   const fetchBooks = async (q) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/books/search?query=${q}`);
-      const data = await res.json();
+      const res = await searchBooks(q);
+      console.log(res);
+      const data = res.data;
+      
       setBooks(data.books || []);
     } catch (err) {
       console.log("Error:", err);

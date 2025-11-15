@@ -8,10 +8,8 @@ const SearchBar = () => {
 
   const handleSearch = () => {
     if (!query.trim()) return;
-console.log(query);
-
     // redirect to search results page with query
-    navigate(`/search?query=${encodeURIComponent(query)}`);
+    navigate(`/search/${query}`);
   };
 
   return (
