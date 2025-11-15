@@ -110,3 +110,14 @@ exports.deleteBook = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+exports.getBooksBySeller = async (req, res) => {
+  try {
+    const books = await Book.find({ sellerId: req.user.id });
+
+    res.json(books);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
