@@ -5,7 +5,6 @@ import { getBookCart } from "../api/axios";
 
 import { FaHeart, FaShoppingCart, FaUser, FaUserAlt, FaUserAltSlash, FaUserCircle } from "react-icons/fa";
 import { CartContext } from "../context/CartContext";
-import SearchBar from "./SearchBox";
 
 function Navbar() {
   const { cartCount } = useContext(CartContext);
@@ -26,7 +25,6 @@ function Navbar() {
     <nav className="navbar flex items-center justify-between px-6 py-3 bg-blue-600 text-white shadow-lg">
       <Link to="/" className="logo text-2xl font-bold">BookStore</Link>
 
-      <SearchBar  />
       <div className="flex items-center gap-5">
 
         {!user ? (
