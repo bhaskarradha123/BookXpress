@@ -62,9 +62,9 @@ const Home = () => {
     if (!token) return toast.warn("Please login to add books to cart");
     try {
       if (cartBooks.includes(bookId)) {
-        await removeFromCart(bookId);
+        await removeBookFromCart(bookId);
         setCartBooks(cartBooks.filter((id) => id !== bookId));
-        toast.info("Removed from cart");
+        toast.warning("Removed from cart");
       } else {
         await addBookToCart(bookId);
         setCartBooks([...cartBooks, bookId]);
@@ -81,8 +81,9 @@ const Home = () => {
     try {
       if (wishlistBooks.includes(bookId)) {
         await removeFromWishlist(bookId);
+        
         setWishlistBooks(wishlistBooks.filter((id) => id !== bookId));
-        toast.info("Removed from wishlist");
+        toast.warning("Removed from wishlist");
       } else {
         await addToWishlist({ bookId });
         setWishlistBooks([...wishlistBooks, bookId]);
