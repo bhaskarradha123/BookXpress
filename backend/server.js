@@ -38,8 +38,10 @@ app.use("/api/books", bookRoutes);
 const wishlistRoutes = require("./routes/WishListRoutes");
 app.use("/api/wishlist", wishlistRoutes);
 // Order Routes
-const orderRoutes = require("./routes/OrderRoutes");
-app.use("/api/orders", orderRoutes);
+
+// import PaymentRoutes from "./routes/PaymentRoutes.js";
+// app.use("/api/payment", PaymentRoutes);
+
 // passwords
 
 
