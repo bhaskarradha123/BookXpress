@@ -24,7 +24,7 @@ function App() {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
-        <Route path="/book/:id" element={<BookDetails />} />
+        <Route path="/manageBooks" element={<BookDetails />} />
 
         {/* Auth Pages - redirect if logged-in */}
         <Route
