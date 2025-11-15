@@ -1,14 +1,9 @@
-const express = require("express");
+import express from "express";
+import { placeOrder, verifyPayment } from "../controllers/OrderController";
+
 const router = express.Router();
-const orderController = require("../controllers/OrderController");
-const auth = require("../middleWare/AuthMiddleWare");
 
-// User routes
-router.post("/", auth, orderController.placeOrder);
-router.get("/my-orders", auth, orderController.getUserOrders);
-router.get("/:id", auth, orderController.getOrderById);
+router.post("/order", placeOrder);
+router.post("/verify", verifyPayment);
 
-// Admin/Seller
-router.put("/:id/status", auth, orderController.updateOrderStatus);
-
-module.exports = router;
+export default router;
