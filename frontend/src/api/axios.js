@@ -83,4 +83,15 @@ export const placeOrder = (data) => API.post("/orders", data);
 export const getMyOrders = () => API.get("/orders/my");
 export const getOrderById = (id) => API.get(`/orders/${id}`);
 
+
+// =====================
+// Cloudinary Upload API
+// =====================
+export const uploadImage=(img)=>{
+            let formData = new FormData();
+            formData.append('file', img);
+            formData.append('upload_preset', 'BookXpress');
+  return  axios.post('https://api.cloudinary.com/v1_1/dsbwkapof/image/upload',formData)
+};
+
 export default API;

@@ -13,6 +13,8 @@ import BookDetails from "./pages/BookDetails";
 
 // Components
 import Navbar from "./components/Navbar";
+import AddBook from "./pages/AddBook";
+import UpdateBook from "./pages/UpdateBook";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -24,7 +26,6 @@ function App() {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
-        <Route path="/manageBooks" element={<BookDetails />} />
 
         {/* Auth Pages - redirect if logged-in */}
         <Route
@@ -52,6 +53,20 @@ function App() {
           path="/cart"
           element={user ? <Cart /> : <Login />}
         />
+        
+        <Route
+          path="/manageBooks"
+          element={user ? <BookDetails /> : <Login />}
+        />
+        <Route
+          path="/add-book"
+          element={user ? <AddBook /> : <Login />}
+        />
+        <Route
+          path="/update-book/:id"
+          element={user ? <UpdateBook /> : <Login />}
+        />
+
       </Routes>
     </>
   );
