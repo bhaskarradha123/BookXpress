@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL:'https://bookxpress-t5vz.onrender.com',
+  baseURL:'https://bookxpress-t5vz.onrender.com/api',
 });
 
 // Attach token automatically
