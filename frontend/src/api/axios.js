@@ -43,7 +43,7 @@ export const updateUserAddress = (data) => API.put("/auth/updateAddress", data);
 // Public
 export const getAllBooks = () => API.get("/books");
 export const getBookById = (id) => API.get(`/books/${id}`);
-
+export const searchBooks = (query) => API.get(`/books/search?query=${encodeURIComponent(query)}`);
 // Seller only
 export const addBook = (data) => API.post("/books", data);
 export const updateBook = (id, data) => API.put(`/books/${id}`, data);
