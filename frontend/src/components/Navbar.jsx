@@ -16,13 +16,7 @@ function Navbar() {
     <nav className="navbar">
       <Link to="/" className="logo">BookStore</Link>
 
-      {/* Search Bar */}
-      <input
-        type="text"
-        placeholder="Search books..."
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-      />
+     
 
       {/* Right side menu */}
       <div className="menu">

@@ -19,32 +19,39 @@ function App() {
 
   return (
     <>
-      {/* Top Navbar */}
       <Navbar />
 
-      {/* Main Application Routing */}
       <Routes>
+        {/* Public Routes */}
         <Route path="/" element={<Home />} />
-
-        {/* If user is not logged in → show login & register */}
-        {!user && (
-          <>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-          </>
-        )}
-
-        {/* User-protected routes */}
-        {user && (
-          <>
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/wishlist" element={<Wishlist />} />
-            <Route path="/cart" element={<Cart />} />
-          </>
-        )}
-
-        {/* Common page for book details */}
         <Route path="/book/:id" element={<BookDetails />} />
+
+        {/* Auth Pages - redirect if logged-in */}
+        <Route
+          path="/login"
+          element={user ? <Home /> : <Login />}
+        />
+
+        <Route
+          path="/register"
+          element={user ? <Home /> : <Register />}
+        />
+
+        {/* Protected Routes */}
+        <Route
+          path="/profile"
+          element={user ? <Profile /> : <Login />}
+        />
+
+        <Route
+          path="/wishlist"
+          element={user ? <Wishlist /> : <Login />}
+        />
+
+        <Route
+          path="/cart"
+          element={user ? <Cart /> : <Login />}
+        />
       </Routes>
     </>
   );

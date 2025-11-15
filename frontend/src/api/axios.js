@@ -13,7 +13,8 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
-export default API;
+
+
 
 // =====================
 // AUTH APIs
@@ -56,16 +57,16 @@ export const getWishlist = () => API.get("/wishlist");
 // CART APIs
 // =====================
 
-export const addToCart = (bookId, quantity = 1) =>
+export const addBookToCart = (bookId, quantity = 1) =>
   API.post("/cart/add", { bookId, quantity });
 
-export const removeFromCart = (bookId) =>
+export const removeBookFromCart = (bookId) =>
   API.post("/cart/remove", { bookId });
 
-export const updateCartQuantity = (bookId, quantity) =>
+export const updateBookCartQuantity = (bookId, quantity) =>
   API.post("/cart/update", { bookId, quantity });
 
-export const getCart = () => API.get("/cart");
+export const getBookCart = () => API.get("/cart");
 
 
 // =====================
@@ -75,3 +76,5 @@ export const getCart = () => API.get("/cart");
 export const placeOrder = (data) => API.post("/orders", data);
 export const getMyOrders = () => API.get("/orders/my");
 export const getOrderById = (id) => API.get(`/orders/${id}`);
+
+export default API;
