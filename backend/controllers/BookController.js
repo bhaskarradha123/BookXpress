@@ -1,8 +1,9 @@
+const mongoose = require("mongoose");
 const Book = require("../models/Book");
 
-//=====================
+// =====================
 // Search Books (Public)
-//=====================
+// =====================
 exports.searchBooks = async (req, res) => {
   try {
     const { query } = req.query;
@@ -27,7 +28,6 @@ exports.searchBooks = async (req, res) => {
       count: books.length,
       books,
     });
-
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -36,8 +36,6 @@ exports.searchBooks = async (req, res) => {
     });
   }
 };
-
-
 
 // =====================
 // Get All Books (Public)
@@ -56,8 +54,14 @@ exports.getAllBooks = async (req, res) => {
 // =====================
 exports.getBookById = async (req, res) => {
   try {
-    const book = await Book.findById(req.params.id);
+    const { id } = req.params;
 
+    // Validate ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: "Invalid Book ID" });
+    }
+
+    const book = await Book.findById(id);
     if (!book) return res.status(404).json({ error: "Book not found" });
 
     res.json(book);
@@ -83,8 +87,8 @@ exports.addBook = async (req, res) => {
       price,
       category,
       description,
-      image,               // Cloudinary URL
-      sellerId: req.user.id, // Seller who owns the book
+      image,
+      sellerId: req.user.id,
     });
 
     res.status(201).json({
@@ -103,19 +107,20 @@ exports.updateBook = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // check if book exists
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: "Invalid Book ID" });
+    }
+
     const book = await Book.findById(id);
     if (!book) return res.status(404).json({ error: "Book not found" });
 
-    // seller authorization
     if (book.sellerId.toString() !== req.user.id) {
       return res.status(403).json({ error: "Unauthorized" });
     }
 
-    // update book
     const updatedBook = await Book.findByIdAndUpdate(id, req.body, {
-      new: true,           // return updated data
-      runValidators: true, // validate fields
+      new: true,
+      runValidators: true,
     });
 
     res.json({
@@ -134,10 +139,13 @@ exports.deleteBook = async (req, res) => {
   try {
     const { id } = req.params;
 
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: "Invalid Book ID" });
+    }
+
     const book = await Book.findById(id);
     if (!book) return res.status(404).json({ error: "Book not found" });
 
-    // authorization check
     if (book.sellerId.toString() !== req.user.id) {
       return res.status(403).json({ error: "Unauthorized" });
     }
@@ -150,11 +158,12 @@ exports.deleteBook = async (req, res) => {
   }
 };
 
-
+// ========================
+// Get Books By Seller
+// ========================
 exports.getBooksBySeller = async (req, res) => {
   try {
     const books = await Book.find({ sellerId: req.user.id });
-
     res.json(books);
   } catch (error) {
     res.status(500).json({ error: error.message });
