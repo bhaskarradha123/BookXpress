@@ -40,17 +40,22 @@ export const updateBook = (id, data) => API.put(`/books/${id}`, data);
 export const deleteBook = (id) => API.delete(`/books/${id}`);
 
 
+
 // =====================
-// WISHLIST APIs
+// WISHLIST APIs (Corrected)
 // =====================
 
+// Add to wishlist
 export const addToWishlist = (bookId) =>
   API.post("/wishlist/add", { bookId });
 
+// Remove from wishlist (your backend uses DELETE and params)
 export const removeFromWishlist = (bookId) =>
-  API.post("/wishlist/remove", { bookId });
+  API.delete(`/wishlist/remove/${bookId}`);
 
+// Get wishlist
 export const getWishlist = () => API.get("/wishlist");
+
 
 
 // =====================
