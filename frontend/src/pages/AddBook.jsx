@@ -1,113 +1,102 @@
 import React, { useState } from "react";
-import { addBook } from "../api/axios";
+import { addBook } from "../../src/api/axios";
+import { uploadImage } from "../api/axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const AddBook = () => {
-  const navigate = useNavigate();
-
+    const navigate = useNavigate();
   const [form, setForm] = useState({
     title: "",
     author: "",
-    price: "",
     category: "",
+    price: "",
+    stock: "",
     description: "",
     image: "",
-    stock: 1,
   });
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const [imgFile, setImgFile] = useState(null);
+  const [preview, setPreview] = useState("");
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImgFile(file);
+    setPreview(URL.createObjectURL(file));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      await addBook(form);
-      toast.success("Book added successfully!");
-      navigate("/seller/books"); // Redirect to Seller Books Page
-    } catch (err) {
-      toast.error(err.response?.data?.error || "Failed to add book");
+      let imgUrl = form.image;
+
+      // Upload image if selected
+      if (imgFile) {
+        const uploadRes = await uploadImage(imgFile);
+        imgUrl = uploadRes.data.secure_url;
+      }
+
+      // Send data to backend
+      await addBook({
+        ...form,
+        image: imgUrl,
+      });
+
+      toast.success("Book added successfully");
+        navigate("/manageBooks");
+    } catch (error) {
+      console.log(error);
+      toast.error("Error adding book");
     }
   };
 
   return (
-    <div className="max-w-lg mx-auto mt-10 p-6 border rounded-xl shadow">
-      <h2 className="text-2xl font-bold mb-4">Add New Book</h2>
+    <form onSubmit={handleSubmit}>
+      <input
+        placeholder="Title"
+        value={form.title}
+        onChange={(e) => setForm({ ...form, title: e.target.value })}
+      />
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <input
+        placeholder="Author"
+        value={form.author}
+        onChange={(e) => setForm({ ...form, author: e.target.value })}
+      />
 
-        <input
-          type="text"
-          name="title"
-          placeholder="Book Title"
-          className="w-full p-2 border rounded"
-          onChange={handleChange}
-          required
-        />
+      <input
+        placeholder="Category"
+        value={form.category}
+        onChange={(e) => setForm({ ...form, category: e.target.value })}
+      />
 
-        <input
-          type="text"
-          name="author"
-          placeholder="Author"
-          className="w-full p-2 border rounded"
-          onChange={handleChange}
-          required
-        />
+      <input
+        placeholder="Price"
+        type="number"
+        value={form.price}
+        onChange={(e) => setForm({ ...form, price: e.target.value })}
+      />
 
-        <input
-          type="number"
-          name="price"
-          placeholder="Price"
-          className="w-full p-2 border rounded"
-          onChange={handleChange}
-          required
-        />
+      <input
+        placeholder="Stock"
+        type="number"
+        value={form.stock}
+        onChange={(e) => setForm({ ...form, stock: e.target.value })}
+      />
 
-        <input
-          type="text"
-          name="category"
-          placeholder="Category"
-          className="w-full p-2 border rounded"
-          onChange={handleChange}
-          required
-        />
+      <textarea
+        placeholder="Description"
+        value={form.description}
+        onChange={(e) => setForm({ ...form, description: e.target.value })}
+      />
 
-        <textarea
-          name="description"
-          placeholder="Description"
-          className="w-full p-2 border rounded"
-          rows="3"
-          onChange={handleChange}
-        ></textarea>
+      <input type="file" onChange={handleImageChange} />
 
-        <input
-          type="text"
-          name="image"
-          placeholder="Image URL"
-          className="w-full p-2 border rounded"
-          onChange={handleChange}
-          required
-        />
+      {preview && <img width="120" src={preview} alt="preview" />}
 
-        <input
-          type="number"
-          name="stock"
-          placeholder="Stock"
-          className="w-full p-2 border rounded"
-          onChange={handleChange}
-          min="1"
-        />
-
-        <button
-          type="submit"
-          className="w-full p-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-        >
-          Add Book
-        </button>
-      </form>
-    </div>
+      <button type="submit">Add Book</button>
+    </form>
   );
 };
 

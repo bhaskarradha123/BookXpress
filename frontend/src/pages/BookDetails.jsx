@@ -65,7 +65,8 @@ const BookDetails = () => {
               <h3 className="text-lg font-semibold mt-3">{book.title}</h3>
               <p className="text-gray-600">{book.author}</p>
               <p className="font-bold mt-2">₹ {book.price}</p>
-              
+              <p>{book.description}</p>
+              <p>{book.stock} in stock</p>
               {/* Buttons */}
               <div className="flex justify-between mt-4">
                 <button
