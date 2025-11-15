@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import API from "../api/axios";
 import { toast } from "react-toastify";
+import { CartContext } from "../context/CartContext";
 
 function Cart() {
   const [cart, setCart] = useState(null);
-
+const { loadCartCount } = useContext(CartContext);
   useEffect(() => {
     fetchCart();
   }, []);
@@ -31,8 +32,9 @@ function Cart() {
   const removeItem = async (bookId) => {
     try {
       await API.delete(`/cart/remove/${bookId}`);
-      toast.delete("Item removed from cart");
+      toast.error("Item removed from cart");
       fetchCart();
+      loadCartCount();
     } catch (error) {
       console.log(error);
     }
@@ -43,6 +45,7 @@ function Cart() {
       await API.delete("/cart/clear");
       toast.error("Cart cleared");
       fetchCart();
+      loadCartCount();
     } catch (error) {
       console.log(error);
     }

@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { getAllBooks, addBookToCart, addToWishlist } from "../api/axios";
 import { toast } from "react-toastify";
+import { CartContext } from "../context/CartContext";
 
 const Home = () => {
   const [books, setBooks] = useState([]);
   const token = localStorage.getItem("token");
+const { loadCartCount } = useContext(CartContext);
 
   useEffect(() => {
     loadBooks();
@@ -30,6 +32,7 @@ const Home = () => {
     try {
       await addBookToCart(bookId);
       toast.success("Book added to cart");
+      loadCartCount();  
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to add to cart");
     }

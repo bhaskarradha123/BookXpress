@@ -11,15 +11,10 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await loginUser({ email, password });
-      console.log(res.data);
-      
+      const res = await loginUser({ email, password });      
       login(res.data);
-
       alert("Login Successful");
-    } catch (err) {
-      console.log(err);
-      
+    } catch (err) {      
       alert("Invalid credentials");
     }
   };
