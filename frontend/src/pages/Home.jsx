@@ -56,23 +56,24 @@ const Home = () => {
     }
   };
 
-  const handleWishlist = async (bookId) => {
-    if (!token) return toast.warn("Please login to add to wishlist");
+ const handleWishlist = async (bookId) => {
+  if (!token) return toast.warn("Please login to add to wishlist");
 
-    try {
-      if (wishlistBooks.includes(bookId)) {
-        await removeFromWishlist(bookId);
-        setWishlistBooks(wishlistBooks.filter((id) => id !== bookId));
-        toast.info("Book removed from wishlist");
-      } else {
-        await addToWishlist(bookId);
-        setWishlistBooks([...wishlistBooks, bookId]);
-        toast.success("Book added to wishlist");
-      }
-    } catch (err) {
-      toast.error(err.response?.data?.message || "Wishlist operation failed");
+  try {
+    if (wishlistBooks.includes(bookId)) {
+      await removeFromWishlist(bookId); 
+      setWishlistBooks(wishlistBooks.filter((id) => id !== bookId));
+      toast.info("Book removed from wishlist");
+    } else {
+      await addToWishlist({ bookId }); 
+      setWishlistBooks([...wishlistBooks, bookId]);
+      toast.success("Book added to wishlist");
     }
-  };
+  } catch (err) {
+    toast.error(err.response?.data?.error || "Wishlist operation failed");
+  }
+};
+
 
   return (
     <div className="container mx-auto p-6">
