@@ -5,14 +5,17 @@ import {
   removeBookFromCart,
   addToWishlist,
   removeFromWishlist,
-} from "../api/axios"; // make sure to implement removeBookFromCart & removeFromWishlist in your API
+  searchBooks,
+} from "../api/axios";
 import { toast } from "react-toastify";
 import { CartContext } from "../context/CartContext";
 
 const Home = () => {
   const [books, setBooks] = useState([]);
-  const [cartBooks, setCartBooks] = useState([]); // store books in cart
-  const [wishlistBooks, setWishlistBooks] = useState([]); // store wishlist books
+  const [filteredBooks, setFilteredBooks] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [cartBooks, setCartBooks] = useState([]);
+  const [wishlistBooks, setWishlistBooks] = useState([]);
   const token = localStorage.getItem("token");
   const { loadCartCount } = useContext(CartContext);
 
@@ -24,8 +27,8 @@ const Home = () => {
     try {
       const response = await getAllBooks();
       setBooks(response.data || []);
-
-      // Optionally, if API provides cart/wishlist info:
+      setFilteredBooks(response.data || []);
+      
       const cartIds = response.data.filter((b) => b.inCart).map((b) => b._id);
       const wishlistIds = response.data.filter((b) => b.inWishlist).map((b) => b._id);
       setCartBooks(cartIds);
@@ -37,48 +40,73 @@ const Home = () => {
     }
   };
 
-  const handleAddToCart = async (bookId) => {
-    if (!token) return toast.warn("Please login to add books to cart");
+  const handleSearch = async (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
 
-    try {
-      if (cartBooks.includes(bookId)) {
-        await removeBookFromCart(bookId);
-        setCartBooks(cartBooks.filter((id) => id !== bookId));
-        toast.info("Book removed from cart");
-      } else {
-        await addBookToCart(bookId);
-        setCartBooks([...cartBooks, bookId]);
-        toast.success("Book added to cart");
-      }
-      loadCartCount();
-    } catch (err) {
-      toast.error(err.response?.data?.message || "Cart operation failed");
+    if (query.trim() === "") {
+      setFilteredBooks(books);
+    } else {
+      const filtered = books.filter((book) =>
+        book.title.toLowerCase().includes(query.toLowerCase()) ||
+        book.author.toLowerCase().includes(query.toLowerCase()) ||
+        book.category?.toLowerCase().includes(query.toLowerCase()) ||
+        book.description?.toLowerCase().includes(query.toLowerCase())
+      );
+      setFilteredBooks(filtered);
     }
   };
 
- const handleWishlist = async (bookId) => {
-  if (!token) return toast.warn("Please login to add to wishlist");
-
-  try {
-    if (wishlistBooks.includes(bookId)) {
-      await removeFromWishlist(bookId); 
-      setWishlistBooks(wishlistBooks.filter((id) => id !== bookId));
-      toast.info("Book removed from wishlist");
-    } else {
-      await addToWishlist({ bookId }); 
-      setWishlistBooks([...wishlistBooks, bookId]);
-      toast.success("Book added to wishlist");
+  // --- CART / WISHLIST TOGGLE HANDLERS ---
+  const handleAddToCart = async (bookId) => {
+    if (!token) return toast.warn("Please login to add books to cart");
+    try {
+      if (cartBooks.includes(bookId)) {
+        await removeFromCart(bookId);
+        setCartBooks(cartBooks.filter((id) => id !== bookId));
+        toast.info("Removed from cart");
+      } else {
+        await addBookToCart(bookId);
+        setCartBooks([...cartBooks, bookId]);
+        toast.success("Added to cart");
+      }
+      loadCartCount();
+    } catch (err) {
+      toast.error(err.response?.data?.error || "Cart operation failed");
     }
-  } catch (err) {
-    toast.error(err.response?.data?.error || "Wishlist operation failed");
-  }
-};
+  };
 
+  const handleWishlist = async (bookId) => {
+    if (!token) return toast.warn("Please login to add to wishlist");
+    try {
+      if (wishlistBooks.includes(bookId)) {
+        await removeFromWishlist(bookId);
+        setWishlistBooks(wishlistBooks.filter((id) => id !== bookId));
+        toast.info("Removed from wishlist");
+      } else {
+        await addToWishlist({ bookId });
+        setWishlistBooks([...wishlistBooks, bookId]);
+        toast.success("Added to wishlist");
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.error || "Wishlist operation failed");
+    }
+  };
 
   return (
     <div className="container mx-auto p-6">
+      <div className="mb-6">
+        <input
+          type="text"
+          placeholder="Search by title, author, category or description..."
+          value={searchQuery}
+          onChange={handleSearch}
+          className="w-full border p-2 rounded-md"
+        />
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {books.map((book) => (
+        {filteredBooks.map((book) => (
           <div
             key={book._id}
             className="border rounded-xl p-4 shadow hover:shadow-lg transition"
