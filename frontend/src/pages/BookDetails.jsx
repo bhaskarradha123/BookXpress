@@ -15,7 +15,7 @@ const BookDetails = () => {
 
   const loadBooks = async () => {
     try {
-      const response = await getSellerBooks();   // API call to fetch only seller's books
+      const response = await getSellerBooks();   
       setBooks(response.data || []);
     } catch (err) {
       toast.error("Failed to load books");

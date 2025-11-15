@@ -5,8 +5,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const UpdateBook = () => {
-  const { id } = useParams(); // book id from URL
-  console.log(id);
+  const { id } = useParams(); 
   
   const navigate = useNavigate();
 
@@ -77,7 +76,7 @@ const UpdateBook = () => {
       await updateBook(id, { ...form, image: imgUrl });
 
       toast.success("Book updated successfully!");
-      navigate("/manageBooks"); // redirect to seller books list
+      navigate("/manageBooks"); 
     } catch (error) {
       console.error(error);
       toast.error("Error updating book");
