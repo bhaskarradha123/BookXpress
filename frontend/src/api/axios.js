@@ -38,7 +38,7 @@ export const getBookById = (id) => API.get(`/books/${id}`);
 export const addBook = (data) => API.post("/books", data);
 export const updateBook = (id, data) => API.put(`/books/${id}`, data);
 export const deleteBook = (id) => API.delete(`/books/${id}`);
-export const getSellerBooks = () => API.get("/books/seller/me", config);
+export const getSellerBooks = () => API.get("/books/seller/me");
 
 
 
