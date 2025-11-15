@@ -77,7 +77,7 @@ export const addBookToCart = (bookId, quantity = 1) =>
   API.post("/cart/add", { bookId, quantity });
 
 export const removeBookFromCart = (bookId) =>
-  API.post("/cart/remove", { bookId });
+  API.delete(`/cart/remove/${bookId}`);
 
 export const updateBookCartQuantity = (bookId, quantity) =>
   API.post("/cart/update", { bookId, quantity });
