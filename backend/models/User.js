@@ -18,9 +18,8 @@ const userSchema = new mongoose.Schema(
       enum: ["customer", "seller"],
       default: "customer",
     },
-
+    gender: { type: String, enum: ["MALE", "FEMALE"] },
     phone: { type: Number, unique: true },
-
     address: {
       street: String,
       city: String,

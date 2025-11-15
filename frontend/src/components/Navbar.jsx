@@ -3,7 +3,7 @@ import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { getBookCart } from "../api/axios";
 
-import { FaHeart, FaShoppingCart } from "react-icons/fa";
+import { FaHeart, FaShoppingCart, FaUser, FaUserAlt, FaUserAltSlash, FaUserCircle } from "react-icons/fa";
 import { CartContext } from "../context/CartContext";
 
 function Navbar() {
@@ -49,7 +49,9 @@ function Navbar() {
             </Link>
 
             {/* Profile */}
-            <Link to="/profile">{user.name}</Link>
+            <Link to="/profile">
+            <FaUser />
+            </Link>
 
             {/* Seller menu */}
             {role === "seller" && (
