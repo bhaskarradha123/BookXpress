@@ -15,6 +15,7 @@ import BookDetails from "./pages/BookDetails";
 import Navbar from "./components/Navbar";
 import AddBook from "./pages/AddBook";
 import UpdateBook from "./pages/UpdateBook";
+import SearchList from "./pages/SearchList";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -53,7 +54,7 @@ function App() {
           path="/cart"
           element={user ? <Cart /> : <Login />}
         />
-        
+
         <Route
           path="/manageBooks"
           element={user ? <BookDetails /> : <Login />}
@@ -66,6 +67,8 @@ function App() {
           path="/update-book/:id"
           element={user ? <UpdateBook /> : <Login />}
         />
+
+        <Route path="/search" element={<SearchList />} />
 
       </Routes>
     </>

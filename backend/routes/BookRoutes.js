@@ -6,6 +6,7 @@ const auth = require("../middleWare/AuthMiddleWare");
 // Public
 router.get("/", bookController.getAllBooks);
 router.get("/:id", bookController.getBookById);
+router.get("/search", bookController.searchBooks);
 
 // Protected (Seller Only)
 router.post("/", auth, bookController.addBook);

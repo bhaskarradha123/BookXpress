@@ -1,5 +1,44 @@
 const Book = require("../models/Book");
 
+//=====================
+// Search Books (Public)
+//=====================
+exports.searchBooks = async (req, res) => {
+  try {
+    const { query } = req.query;
+
+    if (!query || query.trim() === "") {
+      return res.status(400).json({ message: "Search query is required" });
+    }
+
+    const searchRegex = new RegExp(query, "i"); // case-insensitive
+
+    const books = await Book.find({
+      $or: [
+        { title: searchRegex },
+        { author: searchRegex },
+        { category: searchRegex },
+        { description: searchRegex },
+      ],
+    });
+
+    res.status(200).json({
+      success: true,
+      count: books.length,
+      books,
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Search failed",
+      error: error.message,
+    });
+  }
+};
+
+
+
 // =====================
 // Get All Books (Public)
 // =====================
