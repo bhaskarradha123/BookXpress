@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { deleteUserAccount, getUserProfile, updateUserAddress, updateUserProfile } from "../api/axios";
+import { deleteUserAccount, updateUserAddress, updateUserProfile } from "../api/axios";
 import { toast } from "react-toastify";
 
 const Profile = () => {
@@ -24,7 +23,6 @@ const Profile = () => {
     pinCode: "",
   });
 
-  const token = localStorage.getItem("token");
 
   // Fetch profile on load
   useEffect(() => {
@@ -80,7 +78,6 @@ const Profile = () => {
 
     try {
       const res = await updateUserAddress(addressData);
-
       toast.success("Address updated successfully");
       setUser(res.data.user);
       setEditAddressOpen(false);
