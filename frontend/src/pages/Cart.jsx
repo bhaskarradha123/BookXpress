@@ -5,7 +5,7 @@ import { CartContext } from "../context/CartContext";
 
 function Cart() {
   const [cart, setCart] = useState(null);
-const { loadCartCount } = useContext(CartContext);
+  const { loadCartCount } = useContext(CartContext);
   useEffect(() => {
     fetchCart();
   }, []);
@@ -50,6 +50,40 @@ const { loadCartCount } = useContext(CartContext);
       console.log(error);
     }
   };
+
+
+  const handlePlaceOrder = (item) => {
+   let user = localStorage.getItem('user');
+    user = JSON.parse(user);
+    console.log(user);
+    
+      const totalPrice= item.bookId.price * item.quantity;
+   
+     const options={
+      key:"" ,
+      amount:totalPrice*100,
+      currency:"INR",
+      name:"BookXpress",
+      description:"Test Transaction",
+      image:"https://example.com/your_logo",
+      handler:function(response){
+        alert("payment successfully done"+response.razorpay_payment_id);
+      },
+      prefill:{
+        name:user.name, // userName
+        email:user.email, // user email
+        contact:'8106192071' // user contact
+      },
+      theme:{color:'#fbbf24'}
+
+     }
+     const rzp1=new window.Razorpay(options);
+     rzp1.open();
+     rzp1.on('payment.failed',function(response){
+        alert("payment failed");
+     });
+  }
+
 
   if (!cart)
     return <p style={{ textAlign: "center", marginTop: "20px" }}>Loading...</p>;
@@ -97,6 +131,10 @@ const { loadCartCount } = useContext(CartContext);
                 onClick={() => removeItem(item.bookId._id)}
               >
                 Remove
+              </button>
+
+              <button className="place-order-btn" onClick={()=> handlePlaceOrder(item)}>
+                Place Order
               </button>
             </div>
           </div>
