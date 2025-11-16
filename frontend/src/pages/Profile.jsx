@@ -23,8 +23,6 @@ const Profile = () => {
     pinCode: "",
     doorNo: ""
   });
-
-
   // Fetch profile on load
   useEffect(() => {
     const fetchProfile = async () => {
@@ -41,6 +39,7 @@ const Profile = () => {
         });
 
         setAddressData({
+          doorNo: res.data.user.address?.doorNo || "",
           street: res.data.user.address?.street || "",
           city: res.data.user.address?.city || "",
           state: res.data.user.address?.state || "",
@@ -80,7 +79,9 @@ const Profile = () => {
     try {
       const res = await updateUserAddress(addressData);
       toast.success("Address updated successfully");
-      setUser(res.data.user);
+      const res2= await getUserProfile();
+       localStorage.setItem("user", JSON.stringify(res2.data.user));
+      setUser(res2.data.user);
       setEditAddressOpen(false);
     } catch (err) {
       console.log(err);
@@ -159,7 +160,7 @@ const Profile = () => {
         <p><strong>Street:</strong> {user.address?.street || "--"}</p>
         <p><strong>City:</strong> {user.address?.city || "--"}</p>
         <p><strong>State:</strong> {user.address?.state || "--"}</p>
-        <p><strong>Pincode:</strong> {user.address?.pinCode || "--"}</p>
+        <p><strong>PinCode:</strong> {user.address?.pinCode || "--"}</p>
 
         <button onClick={() => setEditAddressOpen(!editAddressOpen)}>
           {editAddressOpen ? "Close Edit Address" : "Edit Address"}
