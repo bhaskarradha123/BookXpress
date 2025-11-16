@@ -62,16 +62,16 @@ const Profile = () => {
 
     try {
       const res = await updateUserProfile(profileData);
-
+      const res2= await getUserProfile();
+      localStorage.setItem("user", JSON.stringify(res2.data.user));
+      setUser(res.data.user);
       setEditProfileOpen(false);
       toast.success("Profile updated successfully");
-      setUser(res.data.user);
-
     } catch (err) {
       console.log(err);
     }
   };
-
+ 
   // Handle Address Update
   const updateAddress = async (e) => {
     e.preventDefault();
