@@ -9,7 +9,7 @@ function Cart() {
   const [user, setUser] = useState(null);
   const [showCheckout, setShowCheckout] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-
+  
   const { loadCartCount } = useContext(CartContext);
   const navigate = useNavigate();
 
@@ -139,19 +139,27 @@ function Cart() {
 
             {/* Delivery Address */}
             <div className="delivery-address mb-4">
-              <h3 className="font-semibold mb-2">Delivery Address</h3>
+              <h3 className="font-semibold mb-2">Delivery Address 
+                  <button onClick={
+                    ()=>{
+                      navigate("/profile")
+                    }
+                  } >
+              Update Address
+              </button>
+              </h3>
               {!user?.address?.street ? (
                 <p className="text-red-500">
                   Address not found. Please update your address in profile.
                 </p>
               ) : (
                 <>
-                  <p>{user.name}</p>
-                  <p>{user.address.street}</p>
+                  <p>UserName: {user.name}</p>
+                  <p>Address :{user.address.doorNo}, {user.address.street}</p>
                   <p>
                     {user.address.city}, {user.address.state} - {user.address.pinCode}
                   </p>
-                  <p>{user.phone}</p>
+                  <p>Phone :{user.phone}</p>
                 </>
               )}
               {!user?.address?.street && (
@@ -166,6 +174,7 @@ function Cart() {
                 </button>
               )}
             </div>
+          
 
             {/* Actions */}
             <div className="checkout-actions flex justify-between">

@@ -62,12 +62,13 @@ exports.updateProfile = async (req, res) => {
 exports.updateAddress = async (req, res) => {
   try {
     const userId = req.user.id;
-    const { street, city, state, pinCode } = req.body;
+    const { street, city, state, pinCode, doorNo } = req.body;
 
     const updated = await User.findByIdAndUpdate(
       userId,
       {
         $set: {
+          "address.doorNo": doorNo,
           "address.street": street,
           "address.city": city,
           "address.state": state,
