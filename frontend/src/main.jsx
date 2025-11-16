@@ -4,20 +4,19 @@ import App from "./App.jsx";
 import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 
-// Import your Provider
 import { AuthProvider } from "./context/AuthContext";
 import { ToastContainer } from "react-toastify";
-import { CartContext, CartProvider } from "./context/CartContext.jsx";
+import {  CartProvider } from "./context/CartContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
-       <CartProvider>
-        <ToastContainer position="top-right" autoClose={2000} />
+        <CartProvider>
+          <ToastContainer position="top-right" autoClose={2000} />
 
-        <App />
-       </CartProvider>
+          <App />
+        </CartProvider>
       </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>

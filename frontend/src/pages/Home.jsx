@@ -115,7 +115,8 @@ const Home = () => {
             <img
               src={book.image}
               alt={book.title}
-              className="w-full h-48 object-cover rounded"
+              width={300}
+              height={300}
             />
             <h3 className="text-lg font-semibold mt-3">{book.title}</h3>
             <p className="text-gray-600">{book.author}</p>
