@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { deleteUserAccount, updateUserAddress, updateUserProfile } from "../api/axios";
+import { deleteUserAccount, getUserProfile, updateUserAddress, updateUserProfile } from "../api/axios";
 import { toast } from "react-toastify";
 
 const Profile = () => {
@@ -21,6 +21,7 @@ const Profile = () => {
     city: "",
     state: "",
     pinCode: "",
+    doorNo: ""
   });
 
 
@@ -81,7 +82,6 @@ const Profile = () => {
       toast.success("Address updated successfully");
       setUser(res.data.user);
       setEditAddressOpen(false);
-
     } catch (err) {
       console.log(err);
     }
@@ -107,7 +107,7 @@ const Profile = () => {
 
   return (
     <div style={{ width: "70%", margin: "auto", marginTop: "40px" }}>
-      
+
       <h2>Profile</h2>
       <div className="profile-card">
         <p><strong>Name:</strong> {user.name}</p>
@@ -155,6 +155,7 @@ const Profile = () => {
 
       <h3>Address</h3>
       <div className="profile-card">
+        <p><strong>Door No:</strong> {user.address?.doorNo || "--"}</p>
         <p><strong>Street:</strong> {user.address?.street || "--"}</p>
         <p><strong>City:</strong> {user.address?.city || "--"}</p>
         <p><strong>State:</strong> {user.address?.state || "--"}</p>
@@ -170,12 +171,20 @@ const Profile = () => {
         <form onSubmit={updateAddress} className="form-card">
           <h3>Edit Address</h3>
 
+
+           <input
+            type="text"
+            placeholder="Door No"
+            value={addressData.doorNo}
+            onChange={(e) => setAddressData({ ...addressData, doorNo: e.target.value })}
+          />
           <input
             type="text"
             placeholder="Street"
             value={addressData.street}
             onChange={(e) => setAddressData({ ...addressData, street: e.target.value })}
           />
+         
 
           <input
             type="text"

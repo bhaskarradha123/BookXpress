@@ -30,7 +30,7 @@ export const resetPassword = (data) => API.post("/auth/reset-password", data);
 // USER PROFILE APIs
 //======================
 
-export const c = () => API.get("/auth/me");
+export const getUserProfile = () => API.get("/auth/me");
 export const updateUserProfile = (data) => API.post("/auth/updateProfile", data);
 export const deleteUserAccount = () => API.delete("/auth/deleteAccount");
 export const updateUserAddress = (data) => API.put("/auth/updateAddress", data);
