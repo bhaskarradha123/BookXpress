@@ -60,7 +60,7 @@ export default function Navbar() {
           to="/"
           className="
             text-2xl md:text-3xl font-extrabold tracking-tight 
-            bg-gradient-to-r from-blue-500 to-purple-400
+            bg-gradient-to-r from-blue-500 to-blue-500
             bg-clip-text text-transparent 
             animate-pulse hover:scale-110 transition duration-300
           "
