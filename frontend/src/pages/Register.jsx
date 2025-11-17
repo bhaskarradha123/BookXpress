@@ -1,33 +1,34 @@
 import React, { useState } from "react";
-import axios from "axios";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { registerUser } from "../api/axios";
+import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 
-const Register = () => {
+export default function Register() {
   const navigate = useNavigate();
+  const [role, setRole] = useState("customer");
+
   const [form, setForm] = useState({
     name: "",
     email: "",
     password: "",
     phone: "",
-    role: "customer", // default role
+    role: "customer",
   });
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleRole = (role) => {
-    setForm({ ...form, role });
+  const switchRole = () => {
+    const newRole = role === "customer" ? "seller" : "customer";
+    setRole(newRole);
+    setForm({ ...form, role: newRole });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const res = await registerUser(form);
+      await registerUser(form);
       toast.success("Registered successfully!");
       navigate("/login");
     } catch (err) {
@@ -36,138 +37,106 @@ const Register = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <form onSubmit={handleSubmit} style={styles.card}>
-        <h2 style={styles.heading}>Create Account</h2>
+    <div className="min-h-screen w-full flex justify-center items-center bg-gradient-to-br from-blue-200 to-blue-50">
+      <div className="relative w-[900px] h-[520px] shadow-2xl rounded-[35px] overflow-hidden bg-white">
 
-        {/* ROLE SELECTION BUTTONS */}
-        <div style={styles.roleContainer}>
-          <button
-            type="button"
-            onClick={() => handleRole("customer")}
-            style={{
-              ...styles.roleBtn,
-              background: form.role === "customer" ? "#4CAF50" : "#ddd",
-              color: form.role === "customer" ? "#fff" : "#000",
-            }}
-          >
-            Customer
-          </button>
+        {/* ---------------------- SLIDING BLUE PANEL ---------------------- */}
+        <div
+          className={`absolute top-0 h-full w-1/2 rounded-[35px] bg-gradient-to-br from-blue-600 to-blue-400 text-white flex flex-col justify-center items-center px-12 transition-all duration-700 ${role === "customer" ? "translate-x-full rounded-l-[35px]" : "translate-x-0 rounded-r-[35px]"
+            }`}
+        >
+          <h1 className="text-4xl font-bold mb-4">
+            {role === "customer" ? "Create Seller Account!" : "Create Customer Account!"}
+          </h1>
+
+          <p className="mb-6 opacity-90 text-center">
+            {role === "customer"
+              ? "Switch to seller registration"
+              : "Switch to customer registration"}
+          </p>
 
           <button
-            type="button"
-            onClick={() => handleRole("seller")}
-            style={{
-              ...styles.roleBtn,
-              background: form.role === "seller" ? "#4CAF50" : "#ddd",
-              color: form.role === "seller" ? "#fff" : "#000",
-            }}
+            onClick={switchRole}
+            className="px-8 py-2 border border-white text-white rounded-full hover:bg-white hover:text-blue-600 transition font-semibold"
           >
-            Seller
+            {role === "customer" ? "Switch to Seller" : "Switch to Customer"}
           </button>
         </div>
 
-        {/* INPUTS */}
-        <input
-          type="text"
-          name="name"
-          placeholder="Full Name"
-          value={form.name}
-          onChange={handleChange}
-          style={styles.input}
-          required
-        />
+        {/* ---------------------- FORM PANEL ---------------------- */}
+        <div
+          className={`absolute top-0 h-full w-1/2 bg-white flex flex-col justify-center px-12 transition-all duration-700 ${role === "customer" ? "translate-x-0" : "translate-x-full"
+            }`}
+        >
+          <h2 className="text-3xl font-bold mb-6 text-gray-800">
+            {role === "customer" ? "Customer Sign Up" : "Seller Sign Up"}
+          </h2>
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email Address"
-          value={form.email}
-          onChange={handleChange}
-          style={styles.input}
-          required
-        />
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <input
+              name="name"
+              placeholder="Full Name"
+              onChange={handleChange}
+              value={form.name}
+              className="w-full bg-gray-100 text-gray-800 px-4 py-3 rounded-xl outline-none"
+            />
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={form.password}
-          onChange={handleChange}
-          style={styles.input}
-          required
-        />
+            <input
+              type="email"
+              name="email"
+              placeholder="Email Address"
+              onChange={handleChange}
+              value={form.email}
+              className="w-full bg-gray-100 text-gray-800 px-4 py-3 rounded-xl outline-none"
+            />
 
-        <input
-          type="number"
-          name="phone"
-          placeholder="Phone Number"
-          value={form.phone}
-          onChange={handleChange}
-          style={styles.input}
-          required
-        />
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              onChange={handleChange}
+              value={form.password}
+              className="w-full bg-gray-100 text-gray-800 px-4 py-3 rounded-xl outline-none"
+            />
 
-        <button type="submit" style={styles.submitBtn}>
-          Register
-        </button>
-        <p>Already have an account? <Link to="/login">Login</Link></p>
-      </form>
+            <input
+              type="number"
+              name="phone"
+              placeholder="Phone Number"
+              onChange={handleChange}
+              value={form.phone}
+              className="w-full bg-gray-100 text-gray-800 px-4 py-3 rounded-xl outline-none"
+            />
+
+            <button
+              type="submit"
+              className="w-full py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition"
+            >
+              Register as {role}
+            </button>
+           <button
+  className="w-full py-3 rounded-xl font-semibold flex items-center justify-center gap-3
+             bg-white text-black shadow-[0_4px_12px_rgba(0,0,0,0.15)]
+             hover:shadow-[0_6px_18px_rgba(0,0,0,0.25)]
+             hover:scale-[1.05] active:scale-[0.98]
+             transition-all duration-300"
+>
+  <img
+    src="https://www.svgrepo.com/show/475656/google-color.svg"
+    className="w-6 h-6"
+    alt="Google"
+  />
+  Continue with Google
+</button>
+
+          </form>
+
+          <p className="mt-4 text-sm text-gray-600">
+            Already have an account?{" "}
+            <Link to="/login" className="text-blue-600">Login</Link>
+          </p>
+        </div>
+      </div>
     </div>
   );
-};
-
-export default Register;
-
-// Inline styles
-const styles = {
-  container: {
-    width: "100%",
-    minHeight: "100vh",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    background: "#f6f6f6",
-  },
-  card: {
-    width: "400px",
-    padding: "25px",
-    borderRadius: "10px",
-    background: "#fff",
-    boxShadow: "0px 0px 10px rgba(0,0,0,0.1)",
-  },
-  heading: {
-    textAlign: "center",
-    marginBottom: "20px",
-  },
-  roleContainer: {
-    display: "flex",
-    justifyContent: "space-between",
-    marginBottom: "20px",
-  },
-  roleBtn: {
-    width: "48%",
-    padding: "10px",
-    border: "none",
-    borderRadius: "8px",
-    cursor: "pointer",
-    fontSize: "16px",
-  },
-  input: {
-    width: "100%",
-    padding: "12px",
-    marginBottom: "12px",
-    borderRadius: "8px",
-    border: "1px solid #ccc",
-  },
-  submitBtn: {
-    width: "100%",
-    padding: "12px",
-    background: "#4CAF50",
-    color: "#fff",
-    border: "none",
-    borderRadius: "8px",
-    fontSize: "18px",
-    cursor: "pointer",
-  },
-};
+}
