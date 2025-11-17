@@ -112,128 +112,167 @@ const Profile = () => {
 
   if (loading) return <p>Loading...</p>;
 
-  return (
-    <div style={{ width: "70%", margin: "auto", marginTop: "40px" }}>
+ return (
+  <div className="max-w-3xl mx-auto mt-10 p-6">
 
-      <h2>Profile</h2>
-      <div className="profile-card">
-        <p><strong>Name:</strong> {user.name}</p>
-        <p><strong>Email:</strong> {user.email}</p>
-        <p><strong>Phone:</strong> {user.phone || "Not added"}</p>
-        <p><strong>Gender:</strong> {user.gender || "Not added"}</p>
-        <button onClick={() => setEditProfileOpen(!editProfileOpen)}>
-          {editProfileOpen ? "Close Edit Profile" : "Edit Profile"}
-        </button>
-      </div>
+    <h2 className="text-3xl font-bold mb-6">Profile</h2>
 
-      {/* Edit Profile Form */}
-      {editProfileOpen && (
-        <form onSubmit={updateProfile} className="form-card">
-          <h3>Edit Profile</h3>
-
-          <input
-            type="text"
-            placeholder="Name"
-            value={profileData.name}
-            onChange={(e) => setProfileData({ ...profileData, name: e.target.value })}
-          />
-
-          <select
-            value={profileData.gender}
-            onChange={(e) => setProfileData({ ...profileData, gender: e.target.value })}
-          >
-            <option value="">Select Gender</option>
-            <option value="MALE">Male</option>
-            <option value="FEMALE">Female</option>
-          </select>
-
-          <input
-            type="number"
-            placeholder="Phone"
-            value={profileData.phone}
-            onChange={(e) => setProfileData({ ...profileData, phone: e.target.value })}
-          />
-
-          <button type="submit">Save Changes</button>
-        </form>
-      )}
-
-      <hr />
-
-      <h3>Address</h3>
-      <div className="profile-card">
-        <p><strong>Door No:</strong> {user.address?.doorNo || "--"}</p>
-        <p><strong>Street:</strong> {user.address?.street || "--"}</p>
-        <p><strong>City:</strong> {user.address?.city || "--"}</p>
-        <p><strong>State:</strong> {user.address?.state || "--"}</p>
-        <p><strong>PinCode:</strong> {user.address?.pinCode || "--"}</p>
-
-        <button onClick={() => setEditAddressOpen(!editAddressOpen)}>
-          {editAddressOpen ? "Close Edit Address" : "Edit Address"}
-        </button>
-      </div>
-
-      {/* Edit Address Form */}
-      {editAddressOpen && (
-        <form onSubmit={updateAddress} className="form-card">
-          <h3>Edit Address</h3>
-
-
-          <input
-            type="text"
-            placeholder="Door No"
-            value={addressData.doorNo}
-            onChange={(e) => setAddressData({ ...addressData, doorNo: e.target.value })}
-          />
-          <input
-            type="text"
-            placeholder="Street"
-            value={addressData.street}
-            onChange={(e) => setAddressData({ ...addressData, street: e.target.value })}
-          />
-
-
-          <input
-            type="text"
-            placeholder="City"
-            value={addressData.city}
-            onChange={(e) => setAddressData({ ...addressData, city: e.target.value })}
-          />
-
-          <input
-            type="text"
-            placeholder="State"
-            value={addressData.state}
-            onChange={(e) => setAddressData({ ...addressData, state: e.target.value })}
-          />
-
-          <input
-            type="text"
-            placeholder="Pincode"
-            value={addressData.pinCode}
-            onChange={(e) => setAddressData({ ...addressData, pinCode: e.target.value })}
-          />
-
-          <button type="submit">Update Address</button>
-        </form>
-      )}
-
-      <hr />
+    {/* Profile Card */}
+    <div className="bg-white shadow-md rounded-xl p-6 mb-6 border border-gray-200">
+      <p className="text-lg"><strong>Name:</strong> {user.name}</p>
+      <p className="text-lg"><strong>Email:</strong> {user.email}</p>
+      <p className="text-lg"><strong>Phone:</strong> {user.phone || "Not added"}</p>
+      <p className="text-lg"><strong>Gender:</strong> {user.gender || "Not added"}</p>
 
       <button
-        style={{ marginTop: "20px", background: "red", color: "white", padding: "10px 20px" }}
+        onClick={() => setEditProfileOpen(!editProfileOpen)}
+        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+      >
+        {editProfileOpen ? "Close Edit Profile" : "Edit Profile"}
+      </button>
+    </div>
+
+    {/* Edit Profile Form */}
+    {editProfileOpen && (
+      <form
+        onSubmit={updateProfile}
+        className="bg-white shadow-md rounded-xl p-6 mb-6 border border-gray-200"
+      >
+        <h3 className="text-xl font-semibold mb-4">Edit Profile</h3>
+
+        <input
+          type="text"
+          placeholder="Name"
+          value={profileData.name}
+          onChange={(e) => setProfileData({ ...profileData, name: e.target.value })}
+          className="border p-2 rounded-md w-full mb-3"
+        />
+
+        <select
+          value={profileData.gender}
+          onChange={(e) => setProfileData({ ...profileData, gender: e.target.value })}
+          className="border p-2 rounded-md w-full mb-3"
+        >
+          <option value="">Select Gender</option>
+          <option value="MALE">Male</option>
+          <option value="FEMALE">Female</option>
+        </select>
+
+        <input
+          type="number"
+          placeholder="Phone"
+          value={profileData.phone}
+          onChange={(e) => setProfileData({ ...profileData, phone: e.target.value })}
+          className="border p-2 rounded-md w-full mb-3"
+        />
+
+        <button
+          type="submit"
+          className="mt-2 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition"
+        >
+          Save Changes
+        </button>
+      </form>
+    )}
+
+    <hr className="my-8" />
+
+    <h3 className="text-2xl font-semibold mb-4">Address</h3>
+
+    {/* Address Card */}
+    <div className="bg-white shadow-md rounded-xl p-6 mb-6 border border-gray-200">
+      <p className="text-lg"><strong>Door No:</strong> {user.address?.doorNo || "--"}</p>
+      <p className="text-lg"><strong>Street:</strong> {user.address?.street || "--"}</p>
+      <p className="text-lg"><strong>City:</strong> {user.address?.city || "--"}</p>
+      <p className="text-lg"><strong>State:</strong> {user.address?.state || "--"}</p>
+      <p className="text-lg"><strong>PinCode:</strong> {user.address?.pinCode || "--"}</p>
+
+      <button
+        onClick={() => setEditAddressOpen(!editAddressOpen)}
+        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+      >
+        {editAddressOpen ? "Close Edit Address" : "Edit Address"}
+      </button>
+    </div>
+
+    {/* Edit Address Form */}
+    {editAddressOpen && (
+      <form
+        onSubmit={updateAddress}
+        className="bg-white shadow-md rounded-xl p-6 mb-6 border border-gray-200"
+      >
+        <h3 className="text-xl font-semibold mb-4">Edit Address</h3>
+
+        <input
+          type="text"
+          placeholder="Door No"
+          value={addressData.doorNo}
+          onChange={(e) => setAddressData({ ...addressData, doorNo: e.target.value })}
+          className="border p-2 rounded-md w-full mb-3"
+        />
+
+        <input
+          type="text"
+          placeholder="Street"
+          value={addressData.street}
+          onChange={(e) => setAddressData({ ...addressData, street: e.target.value })}
+          className="border p-2 rounded-md w-full mb-3"
+        />
+
+        <input
+          type="text"
+          placeholder="City"
+          value={addressData.city}
+          onChange={(e) => setAddressData({ ...addressData, city: e.target.value })}
+          className="border p-2 rounded-md w-full mb-3"
+        />
+
+        <input
+          type="text"
+          placeholder="State"
+          value={addressData.state}
+          onChange={(e) => setAddressData({ ...addressData, state: e.target.value })}
+          className="border p-2 rounded-md w-full mb-3"
+        />
+
+        <input
+          type="text"
+          placeholder="PinCode"
+          value={addressData.pinCode}
+          onChange={(e) => setAddressData({ ...addressData, pinCode: e.target.value })}
+          className="border p-2 rounded-md w-full mb-3"
+        />
+
+        <button
+          type="submit"
+          className="mt-2 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition"
+        >
+          Update Address
+        </button>
+      </form>
+    )}
+
+    <hr className="my-8" />
+
+    <div className="flex gap-4">
+      <button
         onClick={deleteAccount}
+        className="px-6 py-3 bg-red-600 text-white font-semibold rounded-md hover:bg-red-700 transition"
       >
         Delete Account
       </button>
+
       <button
-        style={{ marginTop: "20px", background: "red", color: "white", padding: "10px 40px" }}
         onClick={logout}
+        className="px-6 py-3 bg-gray-700 text-white font-semibold rounded-md hover:bg-gray-800 transition"
       >
         Logout
       </button>
     </div>
-  );
+
+  </div>
+);
+
 };
 
 export default Profile;
