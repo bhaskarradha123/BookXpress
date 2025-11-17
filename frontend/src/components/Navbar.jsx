@@ -17,13 +17,11 @@ import {
 export default function Navbar() {
   const { cartCount } = useContext(CartContext || {});
   const { user } = useContext(AuthContext || {});
-  const navigate = useNavigate();
 
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
   const [open, setOpen] = useState(false);
 
   const role = JSON.parse(localStorage.getItem("role"));
-  const token = localStorage.getItem("token");
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", theme === "dark");
@@ -39,11 +37,7 @@ export default function Navbar() {
     return () => document.removeEventListener("click", closeMenu);
   }, []);
 
-  const logout = () => {
-    localStorage.clear();
-    navigate("/login");
-    window.location.reload();
-  };
+
 
   return (
     <header className="fixed top-0 left-0 w-full z-50">

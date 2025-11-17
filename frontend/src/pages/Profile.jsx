@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { deleteUserAccount, getUserProfile, updateUserAddress, updateUserProfile } from "../api/axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const navigate = useNavigate();
   const [editProfileOpen, setEditProfileOpen] = useState(false);
   const [editAddressOpen, setEditAddressOpen] = useState(false);
 
@@ -62,7 +64,7 @@ const Profile = () => {
 
     try {
       const res = await updateUserProfile(profileData);
-      const res2= await getUserProfile();
+      const res2 = await getUserProfile();
       localStorage.setItem("user", JSON.stringify(res2.data.user));
       setUser(res.data.user);
       setEditProfileOpen(false);
@@ -71,7 +73,7 @@ const Profile = () => {
       console.log(err);
     }
   };
- 
+
   // Handle Address Update
   const updateAddress = async (e) => {
     e.preventDefault();
@@ -79,8 +81,8 @@ const Profile = () => {
     try {
       const res = await updateUserAddress(addressData);
       toast.success("Address updated successfully");
-      const res2= await getUserProfile();
-       localStorage.setItem("user", JSON.stringify(res2.data.user));
+      const res2 = await getUserProfile();
+      localStorage.setItem("user", JSON.stringify(res2.data.user));
       setUser(res2.data.user);
       setEditAddressOpen(false);
     } catch (err) {
@@ -88,6 +90,11 @@ const Profile = () => {
     }
   };
 
+  const logout = () => {
+    localStorage.clear();
+    navigate("/login");
+    window.location.reload();
+  };
   // Handle Delete Account
   const deleteAccount = async () => {
     if (window.confirm("Are you sure you want to delete your account permanently?")) {
@@ -95,8 +102,7 @@ const Profile = () => {
         await deleteUserAccount();
 
         toast.warning("Account deleted successfully");
-        localStorage.clear();
-        window.location.href = "/login";
+        logout();
 
       } catch (err) {
         console.log(err);
@@ -173,7 +179,7 @@ const Profile = () => {
           <h3>Edit Address</h3>
 
 
-           <input
+          <input
             type="text"
             placeholder="Door No"
             value={addressData.doorNo}
@@ -185,7 +191,7 @@ const Profile = () => {
             value={addressData.street}
             onChange={(e) => setAddressData({ ...addressData, street: e.target.value })}
           />
-         
+
 
           <input
             type="text"
@@ -219,6 +225,12 @@ const Profile = () => {
         onClick={deleteAccount}
       >
         Delete Account
+      </button>
+      <button
+        style={{ marginTop: "20px", background: "red", color: "white", padding: "10px 40px" }}
+        onClick={logout}
+      >
+        Logout
       </button>
     </div>
   );
