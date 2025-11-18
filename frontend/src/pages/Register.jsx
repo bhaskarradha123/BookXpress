@@ -153,6 +153,7 @@ export default function Register() {
                 }`}
               />
 
+
               {/* EYE ICON */}
               <span
                 className="absolute right-4 top-3 cursor-pointer text-gray-600"
