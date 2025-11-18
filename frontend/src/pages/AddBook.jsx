@@ -52,6 +52,7 @@ const AddBook = () => {
   };
 
   return (
+    <div className="container mx-auto p-34">
     <form onSubmit={handleSubmit}>
       <input
         placeholder="Title"
@@ -97,7 +98,7 @@ const AddBook = () => {
 
       <button type="submit">Add Book</button>
     </form>
-  );
-};
+    </div>    
+  );};
 
 export default AddBook;

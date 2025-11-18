@@ -35,7 +35,7 @@ const BookDetails = () => {
   };
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="container mx-auto p-34">
       
       {/* Add Book Button */}
       <div className="flex justify-between items-center mb-6">

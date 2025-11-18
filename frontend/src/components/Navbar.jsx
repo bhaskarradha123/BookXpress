@@ -18,15 +18,15 @@ export default function Navbar() {
   const { cartCount } = useContext(CartContext || {});
   const { user } = useContext(AuthContext || {});
 
-  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+  // const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
   const [open, setOpen] = useState(false);
 
   const role = JSON.parse(localStorage.getItem("role"));
 
-  useEffect(() => {
-    document.documentElement.classList.toggle("dark", theme === "dark");
-    localStorage.setItem("theme", theme);
-  }, [theme]);
+  // useEffect(() => {
+  //   document.documentElement.classList.toggle("dark", theme === "dark");
+  //   localStorage.setItem("theme", theme);
+  // }, [theme]);
 
   // Close menu on outside click
   useEffect(() => {
@@ -104,12 +104,12 @@ export default function Navbar() {
               )}
 
               {/* Theme Toggle */}
-              <button
+              {/* <button
                 onClick={() => setTheme(theme === "light" ? "dark" : "light")}
                 className="p-2 rounded-full bg-white/20 hover:scale-110 transition"
               >
                 {theme === "light" ? <FaMoon /> : <FaSun />}
-              </button>
+              </button> */}
 
 
             </>
@@ -119,12 +119,12 @@ export default function Navbar() {
         {/* Mobile: Theme + 3 Dot Menu */}
         <div className="md:hidden flex items-center gap-4 relative mobile-menu group">
           {/* Theme Toggle */}
-          <button
+          {/* <button
             onClick={() => setTheme(theme === "light" ? "dark" : "light")}
             className="p-2 rounded-full bg-white/20 hover:scale-110 transition"
           >
             {theme === "light" ? <FaMoon /> : <FaSun />}
-          </button>
+          </button> */}
 
           {/* Menu Icon */}
           {user && (

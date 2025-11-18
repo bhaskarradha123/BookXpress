@@ -110,7 +110,7 @@ export default function Register() {
             {role === "customer" ? "Customer Sign Up" : "Seller Sign Up"}
           </h2>
 
-          <form onSubmit={handleSubmit} className="space-y-1">
+          <form onSubmit={handleSubmit} className="space-y-2">
             {/* NAME */}
             <div>
               <input
