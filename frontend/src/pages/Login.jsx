@@ -123,7 +123,7 @@ export default function Login() {
 
             {/* Eye Icon */}
             <span
-              className="absolute right-4 top-3 cursor-pointer text-white/70"
+              className="absolute right-4 top-4 cursor-pointer text-black/70"
               onClick={() => setPasswordVisible(!passwordVisible)}
             >
               {passwordVisible ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
