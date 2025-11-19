@@ -45,7 +45,7 @@ export default function Navbar() {
         className="
           w-full flex items-center justify-between
           px-6 py-3
-          backdrop-blur-md bg-white/10 dark:bg-black/20
+          backdrop-blur-md bg-white/70 dark:bg-black/20
           shadow-[0_0_20px_rgba(0,0,0,0.5)]
         "
       >

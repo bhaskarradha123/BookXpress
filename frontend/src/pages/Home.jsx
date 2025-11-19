@@ -172,6 +172,7 @@ const Home = () => {
   ];
 
   return (
+    
     <div className="w-full min-h-screen " >
       {/* HERO */}
       <section
