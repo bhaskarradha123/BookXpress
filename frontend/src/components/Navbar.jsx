@@ -12,6 +12,8 @@ import {
   FaSun,
   FaEllipsisV,
   FaHome,
+  FaInfo,
+  FaBook,
 } from "react-icons/fa";
 
 export default function Navbar() {
@@ -165,8 +167,8 @@ export default function Navbar() {
                 </NavLink>
 
                 {role === "seller" && (
-                  <NavLink onClick={() => setOpen(false)} to="/manageBooks">
-                    Manage Books
+                  <NavLink onClick={() => setOpen(false)} to="/manageBooks" className="flex gap-2">
+                   <FaBook /> Manage Books
                   </NavLink>
                 )}
 
