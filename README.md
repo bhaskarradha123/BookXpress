@@ -113,6 +113,26 @@ npm install
 npm run dev
 ```
 
+
+
+
+---
+
+# 🖼️ UI Previews (GIFs)
+
+### 🏠 Home Page  
+*(Add GIF: home.gif)*  
+
+### 📚 Book Cards Animation  
+*(Add GIF: books.gif)*  
+
+### 🛒 Cart & Checkout Flow  
+*(Add GIF: cart.gif)*  
+
+### 👤 Profile Update (Avatar Selection)  
+*(Add GIF: profile.gif)*  
+
+---
 ---
 
 ## 🖼️ **Screenshots**
@@ -163,4 +183,5 @@ Pull requests are welcome.
 This project is licensed under the **MIT License**.
 
 ---
+
 
