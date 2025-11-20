@@ -14,9 +14,20 @@ A premium, modern, fully responsive online bookstore with **Admin & User dashboa
 
 ## 🛠️ **Tech Stack**
 
-**Frontend:** React.js, TailwindCSS, React Router, Axios <br>
-**Backend:** Node.js, Express.js, MongoDB Atlas, Mongoose<br>
-**Tools:** JWT/Auth (optional), Cloud storage for images
+
+![React](https://img.shields.io/badge/Frontend-React.js-61DAFB?style=for-the-badge&logo=react&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/Styling-TailwindCSS-38B2AC?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![React Router](https://img.shields.io/badge/Routing-React_Router-ca4245?style=for-the-badge&logo=reactrouter&logoColor=white)
+![Axios](https://img.shields.io/badge/API-Axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white)
+
+![NodeJS](https://img.shields.io/badge/Backend-Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)
+![Express](https://img.shields.io/badge/Framework-Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
+
+![MongoDB](https://img.shields.io/badge/Database-MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
+![Mongoose](https://img.shields.io/badge/ODM-Mongoose-880000?style=for-the-badge&logo=mongoose&logoColor=white)
+
+![JWT](https://img.shields.io/badge/Auth-JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white)
+![Cloudinary](https://img.shields.io/badge/Cloud%20Storage-Cloudinary-4285F4?style=for-the-badge&logo=cloudinary&logoColor=white)
 
 
 ---
@@ -183,5 +194,6 @@ Pull requests are welcome.
 This project is licensed under the **MIT License**.
 
 ---
+
 
 
