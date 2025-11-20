@@ -79,7 +79,7 @@ function Cart() {
     const totalPrice = item.bookId.price * item.quantity;
 
     const options = {
-      key: "rzp_live_Rg3lnhOnx2uW4p",
+      key: "rzp_live_RhucuzQQKT7p5u",
       amount: totalPrice * 100,
       currency: "INR",
       name: "BookXpress",
