@@ -13,7 +13,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <BrowserRouter>
       <AuthProvider>
         <CartProvider>
-          <ToastContainer position="top-right" autoClose={2000} />
+          <ToastContainer position="bottom-right" autoClose={2000} />
           <App />
         </CartProvider>
       </AuthProvider>
