@@ -1,6 +1,6 @@
 // src/components/Navbar.jsx
 import { NavLink, Link, useNavigate } from "react-router-dom";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { CartContext } from "../context/CartContext";
 
@@ -8,38 +8,43 @@ import {
   FaHeart,
   FaShoppingCart,
   FaUser,
-  FaMoon,
-  FaSun,
   FaEllipsisV,
   FaHome,
-  FaInfo,
   FaBook,
 } from "react-icons/fa";
 
 export default function Navbar() {
-  const { cartCount } = useContext(CartContext || {});
-  const { user } = useContext(AuthContext || {});
+  // safe context access with defaults
+  const { cartCount: ctxCartCount = 0 } = useContext(CartContext) || {};
+  const { user, logout: authLogout } = useContext(AuthContext) || {};
+  const cartCount = Number(ctxCartCount || 0);
 
-  // const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
   const [open, setOpen] = useState(false);
-
-  const role = JSON.parse(localStorage.getItem("role"));
-
-  // useEffect(() => {
-  //   document.documentElement.classList.toggle("dark", theme === "dark");
-  //   localStorage.setItem("theme", theme);
-  // }, [theme]);
+  const role = typeof window !== "undefined" ? JSON.parse(localStorage.getItem("role")) : null;
+  const navigate = useNavigate();
+  const menuRef = useRef(null);
 
   // Close menu on outside click
   useEffect(() => {
-    function closeMenu(e) {
-      if (!e.target.closest(".mobile-menu")) setOpen(false);
+    function handleClickOutside(e) {
+      if (!menuRef.current) return;
+      if (!menuRef.current.contains(e.target)) setOpen(false);
     }
-    document.addEventListener("click", closeMenu);
-    return () => document.removeEventListener("click", closeMenu);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-
+  // Optional: handler for logging out (calls AuthContext logout if provided)
+  const handleLogout = () => {
+    if (authLogout && typeof authLogout === "function") {
+      authLogout();
+    } else {
+      // fallback: clear localStorage and navigate
+      localStorage.clear();
+      navigate("/login");
+      window.location.reload();
+    }
+  };
 
   return (
     <header className="fixed top-0 left-0 w-full z-50">
@@ -48,17 +53,19 @@ export default function Navbar() {
           w-full flex items-center justify-between
           px-6 py-3
           backdrop-blur-md bg-white/70 dark:bg-black/20
-          shadow-[0_0_20px_rgba(0,0,0,0.5)]
+          shadow-[0_0_20px_rgba(0,0,0,0.05)]
         "
+        role="navigation"
+        aria-label="Main"
       >
         {/* Brand */}
         <Link
           to="/"
           className="
             text-2xl md:text-3xl font-extrabold tracking-tight 
-            bg-gradient-to-r from-blue-500 to-blue-500
+            bg-gradient-to-r from-blue-500 to-indigo-600
             bg-clip-text text-transparent 
-            animate-pulse hover:scale-110 transition duration-300
+            hover:scale-105 transition duration-200
           "
         >
           BookXpress
@@ -68,10 +75,10 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-6 ml-auto text-lg font-medium">
           {!user && (
             <>
-              <NavLink className="hover:text-blue-400 transition" to="/register">
+              <NavLink className="hover:text-blue-500 transition" to="/register">
                 Register
               </NavLink>
-              <NavLink className="hover:text-blue-400 transition" to="/login">
+              <NavLink className="hover:text-blue-500 transition" to="/login">
                 Login
               </NavLink>
             </>
@@ -79,103 +86,106 @@ export default function Navbar() {
 
           {user && (
             <>
-              <NavLink className="hover:text-red-500 text-xl transition" to="/wishlist">
+              <NavLink className="hover:text-red-500 text-xl transition" to="/wishlist" title="Wishlist">
                 <FaHeart />
               </NavLink>
 
-              <NavLink className="relative text-xl transition" to="/cart">
+              <NavLink className="relative text-xl transition" to="/cart" title="Cart">
                 <FaShoppingCart />
                 <span
                   className={`
-                    absolute -top-2 -right-2 text-xs px-2 rounded-full font-bold
+                    absolute -top-2 -right-3 text-xs px-2 rounded-full font-bold
                     ${cartCount > 0 ? "bg-red-600 text-white" : "bg-gray-400 text-white"}
                   `}
+                  aria-live="polite"
                 >
-                  {cartCount || 0}
+                  {cartCount}
                 </span>
               </NavLink>
 
-              <NavLink className="text-xl transition" to="/profile">
+              <NavLink className="text-xl transition" to="/profile" title="Profile">
                 <FaUser />
               </NavLink>
 
               {role === "seller" && (
-                <NavLink className="text-xl transition" to="/manageBooks">
+                <NavLink className="text-lg transition hover:text-blue-500" to="/manageBooks">
                   Manage Books
                 </NavLink>
               )}
-
-              {/* Theme Toggle */}
-              {/* <button
-                onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-                className="p-2 rounded-full bg-white/20 hover:scale-110 transition"
-              >
-                {theme === "light" ? <FaMoon /> : <FaSun />}
-              </button> */}
-
-
             </>
           )}
         </div>
 
-        {/* Mobile: Theme + 3 Dot Menu */}
-        <div className="md:hidden flex items-center gap-4 relative mobile-menu group">
-          {/* Theme Toggle */}
-          {/* <button
-            onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-            className="p-2 rounded-full bg-white/20 hover:scale-110 transition"
-          >
-            {theme === "light" ? <FaMoon /> : <FaSun />}
-          </button> */}
-
-          {/* Menu Icon */}
-          {user && (
-            <button
-              onClick={() => setOpen(!open)}
-              className="text-l p-2 rounded-full bg-white/20 hover:scale-110 transition"
-            >
-              <FaEllipsisV />
-            </button>
+        {/* Mobile Section */}
+        <div className="md:hidden flex items-center gap-4 relative mobile-menu" ref={menuRef}>
+          {/* When not logged in show Register/Login directly for mobile */}
+          {!user && (
+            <div className="flex gap-3 items-center">
+              <NavLink className="text-sm px-3 py-2 rounded-md hover:bg-white/30 transition" to="/register">
+                Register
+              </NavLink>
+              <NavLink className="text-sm px-3 py-2 rounded-md hover:bg-white/30 transition" to="/login">
+                Login
+              </NavLink>
+            </div>
           )}
 
-          {/* Popup Menu */}
-          {open && (
-            <div
-              className="
-                      absolute right-0 top-15  
-                      w-20
-                    
-                      animate-slide-down transition-all
-                    "
-            >
-              <div className="flex flex-col gap-4 text-sm">
-                <NavLink onClick={() => setOpen(false)} to="/" className="flex gap-2">
-                  <FaHome /> Home
-                </NavLink>
+          {/* When logged in show 3-dot menu */}
+          {user && (
+            <>
+              <button
+                aria-haspopup="true"
+                aria-expanded={open}
+                onClick={() => setOpen((v) => !v)}
+                className="p-2 rounded-full bg-white/20 hover:scale-105 transition"
+                title="Menu"
+              >
+                <FaEllipsisV />
+              </button>
 
+              {/* Popup Menu */}
+              {open && (
+                <div
+                  className="
+                    absolute right-0 top-12 w-44 p-3 rounded-xl
+                    bg-white shadow-lg dark:bg-gray-800
+                    ring-1 ring-black ring-opacity-5
+                    animate-slide-down
+                  "
+                >
+                  <div className="flex flex-col gap-3 text-sm">
+                    <NavLink onClick={() => setOpen(false)} to="/" className="flex items-center gap-2 px-2 py-1 rounded hover:bg-gray-100">
+                      <FaHome /> <span>Home</span>
+                    </NavLink>
 
-                <NavLink onClick={() => setOpen(false)} to="/wishlist" className="flex gap-2">
-                  <FaHeart /> Wishlist
-                </NavLink>
+                    <NavLink onClick={() => setOpen(false)} to="/wishlist" className="flex items-center gap-2 px-2 py-1 rounded hover:bg-gray-100">
+                      <FaHeart /> <span>Wishlist</span>
+                    </NavLink>
 
-                <NavLink onClick={() => setOpen(false)} to="/cart" className="flex gap-2">
-                  <FaShoppingCart /> Cart ({cartCount || 0})
-                </NavLink>
+                    <NavLink onClick={() => setOpen(false)} to="/cart" className="flex items-center gap-2 px-2 py-1 rounded hover:bg-gray-100">
+                      <FaShoppingCart /> <span>Cart ({cartCount})</span>
+                    </NavLink>
 
-                <NavLink onClick={() => setOpen(false)} to="/profile" className="flex gap-2">
-                  <FaUser /> Profile
-                </NavLink>
+                    <NavLink onClick={() => setOpen(false)} to="/profile" className="flex items-center gap-2 px-2 py-1 rounded hover:bg-gray-100">
+                      <FaUser /> <span>Profile</span>
+                    </NavLink>
 
-                {role === "seller" && (
-                  <NavLink onClick={() => setOpen(false)} to="/manageBooks" className="flex gap-2">
-                   <FaBook /> Manage Books
-                  </NavLink>
-                )}
+                    {role === "seller" && (
+                      <NavLink onClick={() => setOpen(false)} to="/manageBooks" className="flex items-center gap-2 px-2 py-1 rounded hover:bg-gray-100">
+                        <FaBook /> <span>Manage Books</span>
+                      </NavLink>
+                    )}
 
-
-
-              </div>
-            </div>
+                    <button
+                      onClick={() => { setOpen(false); handleLogout(); }}
+                      className="mt-2 w-full text-left px-2 py-1 rounded hover:bg-gray-100"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </div>
       </nav>
