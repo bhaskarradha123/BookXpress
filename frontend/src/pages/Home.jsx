@@ -288,7 +288,7 @@ const Home = () => {
             </div>
           </section>
 
-          <div className="container mx-auto px-6 md:px-12 lg:px-20 -mt-20">
+<div className="w-full px-4 sm:px-6 md:px-12 lg:px-20 -mt-20 max-w-[100vw] overflow-x-hidden">
             {/* CATEGORIES */}
             <section className="mb-12">
               <h3 className="text-2xl font-bold mb-6">Browse by Category</h3>
