@@ -312,10 +312,10 @@ const Home = () => {
             <section className="mb-12 w-full">
               <h3 className="text-2xl font-bold mb-6">Featured Picks</h3>
 
-              <div className="overflow-hidden">
+              <div className="w-full max-w-full overflow-hidden">
                 <Slider {...carouselSettings}>
                   {featuredBooks.map((book) => (
-                    <div key={book._id} className="px-2 sm:px-3">
+                    <div key={book._id} className="!w-full px-2 sm:px-3">
                       <div className="bg-white rounded-xl p-3 sm:p-4 shadow-lg hover:shadow-2xl transition transform group">
 
                         {/* IMAGE */}
@@ -337,7 +337,7 @@ const Home = () => {
                             {book.title}
                           </h4>
 
-                          <p classwayme="text-xs sm:text-sm text-gray-500 line-clamp-1">
+                          <p className="text-xs sm:text-sm text-gray-500 line-clamp-1">
                             {book.author}
                           </p>
 
@@ -360,8 +360,8 @@ const Home = () => {
                             <button
                               onClick={() => handleAddToCart(book._id)}
                               className={`flex-1 py-2 rounded-lg text-white text-sm sm:text-base ${cartBooks.includes(book._id)
-                                ? "bg-indigo-700"
-                                : "bg-indigo-600 hover:bg-indigo-700"
+                                  ? "bg-indigo-700"
+                                  : "bg-indigo-600 hover:bg-indigo-700"
                                 }`}
                             >
                               Add
@@ -370,20 +370,22 @@ const Home = () => {
                             <button
                               onClick={() => handleWishlist(book._id)}
                               className={`px-3 py-2 rounded-lg text-sm sm:text-base ${wishlistBooks.includes(book._id)
-                                ? "bg-pink-500 text-white"
-                                : "bg-gray-100"
+                                  ? "bg-pink-500 text-white"
+                                  : "bg-gray-100"
                                 }`}
                             >
                               ♡
                             </button>
                           </div>
                         </div>
+
                       </div>
                     </div>
                   ))}
                 </Slider>
               </div>
             </section>
+
 
 
 
