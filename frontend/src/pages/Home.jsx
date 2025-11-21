@@ -712,39 +712,70 @@ const Home = () => {
           </div>
         </section>
 
-        {/* FEATURED CAROUSEL */}
-        <section className="mb-12">
-          <h3 className="text-2xl font-bold mb-6">Featured Picks</h3>
+       <section className="mb-12 w-full overflow-hidden">
+  <h3 className="text-2xl font-bold mb-6">Featured Picks</h3>
 
-          <Slider {...carouselSettings}>
-            {featuredBooks.map((book) => (
-              <div key={book._id} className="px-3">
-                <div className="bg-white rounded-xl p-4 shadow-lg hover:shadow-2xl transition transform group">
-                  <div className="relative overflow-hidden rounded-lg">
-                    <img src={book.image} alt={book.title} className="w-full h-52 object-cover rounded-lg group-hover:scale-105 transition" />
-                    <div className="absolute top-3 right-3 bg-white/80 px-2 py-1 rounded text-xs">{book.category}</div>
-                  </div>
+  <Slider {...carouselSettings}>
+    {featuredBooks.map((book) => (
+      <div key={book._id} className="px-3">
+        <div className="bg-white rounded-xl p-4 shadow-lg hover:shadow-2xl transition transform group">
+          <div className="relative overflow-hidden rounded-lg">
+            <img
+              src={book.image}
+              alt={book.title}
+              className="w-full h-52 object-cover rounded-lg group-hover:scale-105 transition"
+            />
+            <div className="absolute top-3 right-3 bg-white/80 px-2 py-1 rounded text-xs">
+              {book.category}
+            </div>
+          </div>
 
-                  <div className="mt-3">
-                    <h4 className="font-semibold">{book.title}</h4>
-                    <p className="text-sm text-gray-500">{book.author}</p>
-                    <div className="flex items-center justify-between mt-3">
-                      <div className="flex items-center gap-2">
-                        <Stars value={book.rating || 4.5} />
-                        <span className="text-sm text-gray-500">({book.reviews || 120})</span>
-                      </div>
-                      <div className="text-indigo-600 font-bold">₹ {book.price}</div>
-                    </div>
-                    <div className="mt-4 flex gap-2">
-                      <button onClick={() => handleAddToCart(book._id)} className={`flex-1 py-2 rounded-lg text-white ${cartBooks.includes(book._id) ? "bg-indigo-700" : "bg-indigo-600 hover:bg-indigo-700"}`}>Add</button>
-                      <button onClick={() => handleWishlist(book._id)} className={`px-3 py-2 rounded-lg ${wishlistBooks.includes(book._id) ? "bg-pink-500 text-white" : "bg-gray-100"}`}>♡</button>
-                    </div>
-                  </div>
-                </div>
+          <div className="mt-3">
+            <h4 className="font-semibold">{book.title}</h4>
+            <p className="text-sm text-gray-500">{book.author}</p>
+
+            <div className="flex items-center justify-between mt-3">
+              <div className="flex items-center gap-2">
+                <Stars value={book.rating || 4.5} />
+                <span className="text-sm text-gray-500">
+                  ({book.reviews || 120})
+                </span>
               </div>
-            ))}
-          </Slider>
-        </section>
+              <div className="text-indigo-600 font-bold">₹ {book.price}</div>
+            </div>
+
+            <div className="mt-4 flex gap-2">
+              <button
+                onClick={() => handleAddToCart(book._id)}
+                className={`flex-1 py-2 rounded-lg text-white ${
+                  cartBooks.includes(book._id)
+                    ? "bg-indigo-700"
+                    : "bg-indigo-600 hover:bg-indigo-700"
+                }`}
+              >
+                Add
+              </button>
+
+              <button
+                onClick={() => handleWishlist(book._id)}
+                className={`px-3 py-2 rounded-lg ${
+                  wishlistBooks.includes(book._id)
+                    ? "bg-pink-500 text-white"
+                    : "bg-gray-100"
+                }`}
+              >
+                ♡
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    ))}
+  </Slider>
+</section>
+
+
+
 
         {/* OFFER BANNER */}
         <section className="mb-12">
