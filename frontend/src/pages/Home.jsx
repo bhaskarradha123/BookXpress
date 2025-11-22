@@ -11,8 +11,6 @@ import { toast } from "react-toastify";
 import { CartContext } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
 
-import FeaturedBooksCarousel from "./FeaturedBooksCarousel";
-import FeaturedCarousel from "./FeaturedBooksCarousel";
 import FeaturedStrip from "./FeaturedBooksCarousel";
 
 // Small rating stars component
@@ -31,7 +29,7 @@ const Home = () => {
   const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setShowSplash(false), 3200);
+    const timer = setTimeout(() => setShowSplash(false), 5200);
     return () => clearTimeout(timer);
   }, []);
 
