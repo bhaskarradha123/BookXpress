@@ -20,7 +20,7 @@ export default function Navbar() {
   const cartCount = Number(ctxCartCount || 0);
 
   const [open, setOpen] = useState(false);
-  const role = typeof window !== "undefined" ? localStorage.getItem("role") : null;
+  const role = typeof window !== "undefined" ? JSON.parse(localStorage.getItem("role")) : null;
   const navigate = useNavigate();
   const menuRef = useRef(null);
 
@@ -34,17 +34,7 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Optional: handler for logging out (calls AuthContext logout if provided)
-  const handleLogout = () => {
-    if (authLogout && typeof authLogout === "function") {
-      authLogout();
-    } else {
-      // fallback: clear localStorage and navigate
-      localStorage.clear();
-      navigate("/login");
-      window.location.reload();
-    }
-  };
+  
 
   return (
     <header className="fixed top-0 left-0 w-full z-50">
@@ -147,9 +137,8 @@ export default function Navbar() {
               {open && (
                 <div
                   className="
-                    absolute right-0 top-12 w-44 p-3 rounded-xl
-                    bg-white shadow-lg dark:bg-gray-800
-                    ring-1 ring-black ring-opacity-5
+                    absolute right-0 top-12 w-35 rounded-xl
+                    text-gray-700 bg-white shadow-lg
                     animate-slide-down
                   "
                 >
@@ -176,12 +165,7 @@ export default function Navbar() {
                       </NavLink>
                     )}
 
-                    <button
-                      onClick={() => { setOpen(false); handleLogout(); }}
-                      className="mt-2 w-full text-left px-2 py-1 rounded hover:bg-gray-100"
-                    >
-                      Logout
-                    </button>
+                 
                   </div>
                 </div>
               )}
