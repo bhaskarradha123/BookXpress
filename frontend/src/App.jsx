@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
 
@@ -10,11 +10,11 @@ import Cart from "./pages/Cart";
 import Wishlist from "./pages/Wishlist";
 import Profile from "./pages/Profile";
 import BookDetails from "./pages/BookDetails";
+import AddBook from "./pages/AddBook";
+import UpdateBook from "./pages/UpdateBook";
 
 // Components
 import Navbar from "./components/Navbar";
-import AddBook from "./pages/AddBook";
-import UpdateBook from "./pages/UpdateBook";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -24,50 +24,53 @@ function App() {
       <Navbar />
 
       <Routes>
-        {/* Public Routes */}
+        {/* Public */}
         <Route path="/" element={<Home />} />
 
-        {/* Auth Pages - redirect if logged-in */}
+        {/* Auth Pages (redirect if logged in) */}
         <Route
           path="/login"
-          element={user ? <Home /> : <Login />}
+          element={user ? <Navigate to="/" /> : <Login />}
         />
 
         <Route
           path="/register"
-          element={user ? <Home /> : <Register />}
+          element={user ? <Navigate to="/" /> : <Register />}
         />
 
-        {/* Protected Routes */}
+        {/* Protected Pages */}
         <Route
           path="/profile"
-          element={user ? <Profile /> : <Login />}
+          element={user ? <Profile /> : <Navigate to="/login" />}
         />
 
         <Route
           path="/wishlist"
-          element={user ? <Wishlist /> : <Login />}
+          element={user ? <Wishlist /> : <Navigate to="/login" />}
         />
 
         <Route
           path="/cart"
-          element={user ? <Cart /> : <Login />}
+          element={user ? <Cart /> : <Navigate to="/login" />}
         />
 
         <Route
           path="/manageBooks"
-          element={user ? <BookDetails /> : <Login />}
+          element={user ? <BookDetails /> : <Navigate to="/login" />}
         />
+
         <Route
           path="/add-book"
-          element={user ? <AddBook /> : <Login />}
+          element={user ? <AddBook /> : <Navigate to="/login" />}
         />
+
         <Route
           path="/update-book/:id"
-          element={user ? <UpdateBook /> : <Login />}
+          element={user ? <UpdateBook /> : <Navigate to="/login" />}
         />
 
-
+        {/* 🚨 Catch-All Route → Redirect to Login */}
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </>
   );
