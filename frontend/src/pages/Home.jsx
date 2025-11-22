@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 
 import FeaturedBooksCarousel from "./FeaturedBooksCarousel";
 import FeaturedCarousel from "./FeaturedBooksCarousel";
+import FeaturedStrip from "./FeaturedBooksCarousel";
 
 // Small rating stars component
 const Stars = ({ value = 4.5 }) => {
@@ -135,7 +136,7 @@ const Home = () => {
   const featuredBooks = books.slice(0, 8);
   const trendingBooks = books.slice(0, 24);
 
- 
+
 
 
   const categories = [
@@ -278,14 +279,14 @@ const Home = () => {
               </div>
             </section>
 
-            {/* Carousel */}
 
-            <FeaturedCarousel
+            <FeaturedStrip
               featuredBooks={featuredBooks}
               cartBooks={cartBooks}
               wishlistBooks={wishlistBooks}
               handleAddToCart={handleAddToCart}
               handleWishlist={handleWishlist}
+
             />
 
 
@@ -308,7 +309,7 @@ const Home = () => {
             {/* TRENDING GRID */}
             <section className="mb-12">
               <h3 className="text-2xl font-bold mb-6">Trending Now</h3>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {trendingBooks.map((book) => (
                   <div key={book._id} className="bg-white rounded-xl shadow hover:shadow-2xl transition group">
                     <div className="relative overflow-hidden rounded-t-xl">
