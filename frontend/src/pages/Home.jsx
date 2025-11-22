@@ -288,7 +288,7 @@ const Home = () => {
             </div>
           </section>
 
-<div className="w-full px-4 sm:px-6 md:px-12 lg:px-20 -mt-20 max-w-[100vw] overflow-x-hidden">
+          <div className="w-full px-4 sm:px-6 md:px-12 lg:px-20 -mt-20 max-w-[100vw] overflow-x-hidden">
             {/* CATEGORIES */}
             <section className="mb-12">
               <h3 className="text-2xl font-bold mb-6">Browse by Category</h3>
@@ -360,8 +360,8 @@ const Home = () => {
                             <button
                               onClick={() => handleAddToCart(book._id)}
                               className={`flex-1 py-2 rounded-lg text-white text-sm sm:text-base ${cartBooks.includes(book._id)
-                                  ? "bg-indigo-700"
-                                  : "bg-indigo-600 hover:bg-indigo-700"
+                                ? "bg-indigo-700"
+                                : "bg-indigo-600 hover:bg-indigo-700"
                                 }`}
                             >
                               Add
@@ -370,8 +370,8 @@ const Home = () => {
                             <button
                               onClick={() => handleWishlist(book._id)}
                               className={`px-3 py-2 rounded-lg text-sm sm:text-base ${wishlistBooks.includes(book._id)
-                                  ? "bg-pink-500 text-white"
-                                  : "bg-gray-100"
+                                ? "bg-pink-500 text-white"
+                                : "bg-gray-100"
                                 }`}
                             >
                               ♡
