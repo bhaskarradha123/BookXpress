@@ -10,7 +10,7 @@ import {
 import { toast } from "react-toastify";
 import { CartContext } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
-
+import FeaturedBooksCarousel from "../components/FeaturedBooksCarousel";
 // Carousel
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -309,82 +309,13 @@ const Home = () => {
 
             {/* Carousel */}
 
-            <section className="mb-12 w-full">
-              <h3 className="text-2xl font-bold mb-6">Featured Picks</h3>
-
-              <div className="w-full max-w-full overflow-hidden">
-                <Slider {...carouselSettings}>
-                  {featuredBooks.map((book) => (
-                    <div key={book._id} className="!w-full px-2 sm:px-3">
-                      <div className="bg-white rounded-xl p-3 sm:p-4 shadow-lg hover:shadow-2xl transition transform group">
-
-                        {/* IMAGE */}
-                        <div className="relative overflow-hidden rounded-lg">
-                          <img
-                            src={book.image}
-                            alt={book.title}
-                            className="w-full h-40 sm:h-52 object-cover rounded-lg group-hover:scale-105 transition"
-                          />
-
-                          <div className="absolute top-2 right-2 bg-white/80 px-2 py-1 rounded text-[10px] sm:text-xs">
-                            {book.category}
-                          </div>
-                        </div>
-
-                        {/* TEXT */}
-                        <div className="mt-3">
-                          <h4 className="font-semibold text-sm sm:text-base line-clamp-1">
-                            {book.title}
-                          </h4>
-
-                          <p className="text-xs sm:text-sm text-gray-500 line-clamp-1">
-                            {book.author}
-                          </p>
-
-                          {/* RATING + PRICE */}
-                          <div className="flex items-center justify-between mt-3">
-                            <div className="flex items-center gap-1 sm:gap-2">
-                              <Stars value={book.rating || 4.5} />
-                              <span className="text-[10px] sm:text-sm text-gray-500">
-                                ({book.reviews || 120})
-                              </span>
-                            </div>
-
-                            <div className="text-indigo-600 font-bold text-sm sm:text-base">
-                              ₹ {book.price}
-                            </div>
-                          </div>
-
-                          {/* BUTTONS */}
-                          <div className="mt-4 flex gap-2">
-                            <button
-                              onClick={() => handleAddToCart(book._id)}
-                              className={`flex-1 py-2 rounded-lg text-white text-sm sm:text-base ${cartBooks.includes(book._id)
-                                ? "bg-indigo-700"
-                                : "bg-indigo-600 hover:bg-indigo-700"
-                                }`}
-                            >
-                              Add
-                            </button>
-
-                            <button
-                              onClick={() => handleWishlist(book._id)}
-                              className={`px-3 py-2 rounded-lg text-sm sm:text-base ${wishlistBooks.includes(book._id)
-                                ? "bg-pink-500 text-white"
-                                : "bg-gray-100"
-                                }`}
-                            >
-                              ♡
-                            </button>
-                          </div>
-                        </div>
-
-                      </div>
-                    </div>
-                  ))}
-                </Slider>
-              </div>
-            </section>
+            <FeaturedBooksCarousel
+              featuredBooks={featuredBooks}
+              cartBooks={cartBooks}
+              wishlistBooks={wishlistBooks}
+              handleAddToCart={handleAddToCart}
+              handleWishlist={handleWishlist}
+            />
 
 
 
