@@ -9,8 +9,8 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const animeIcons = {
-  MALE: "https://i.postimg.cc/tJ0mQf1W/anime-boy-icon.png",
-  FEMALE: "https://i.postimg.cc/Sx3Cw5j9/anime-girl-icon.png",
+  MALE: "https://cdn-icons-png.flaticon.com/128/236/236832.png",
+  FEMALE: "https://cdn-icons-png.flaticon.com/128/11498/11498793.png",
 };
 
 const Profile = () => {
@@ -206,7 +206,7 @@ const Profile = () => {
                     className="w-20 h-20 rounded-full border-gray-400  hover:border-blue-600 hover:shadow-xl transition"
                     alt="boy"
                   />
-                  <p className="mt-2">Boy</p>
+                  <p className="mt-2">MALE</p>
                 </div>
                      or
                 <div
@@ -218,7 +218,7 @@ const Profile = () => {
                     className="w-20 h-20 rounded-full border-gray-400 hover:border-pink-600 hover:shadow-xl transition"
                     alt="girl"
                   />
-                  <p className="mt-2">Girl</p>
+                  <p className="mt-2">FEMALE</p>
                 </div>
               </div>
             )}
