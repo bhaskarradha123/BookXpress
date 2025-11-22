@@ -20,7 +20,7 @@ export default function Navbar() {
   const cartCount = Number(ctxCartCount || 0);
 
   const [open, setOpen] = useState(false);
-  const role = typeof window !== "undefined" ? JSON.parse(localStorage.getItem("role")) : null;
+  const role = typeof window !== "undefined" ? localStorage.getItem("role") : null;
   const navigate = useNavigate();
   const menuRef = useRef(null);
 

@@ -10,11 +10,9 @@ import {
 import { toast } from "react-toastify";
 import { CartContext } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
-import FeaturedBooksCarousel from "../components/FeaturedBooksCarousel";
-// Carousel
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+
+import FeaturedBooksCarousel from "./FeaturedBooksCarousel";
+import FeaturedCarousel from "./FeaturedBooksCarousel";
 
 // Small rating stars component
 const Stars = ({ value = 4.5 }) => {
@@ -137,34 +135,7 @@ const Home = () => {
   const featuredBooks = books.slice(0, 8);
   const trendingBooks = books.slice(0, 24);
 
-  // Carousel Settings
-  const carouselSettings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 4,       // Desktop
-    slidesToScroll: 1,
-    responsive: [
-      {
-        breakpoint: 1024,  // Tablet
-        settings: {
-          slidesToShow: 3,
-        },
-      },
-      {
-        breakpoint: 768,    // Large mobile
-        settings: {
-          slidesToShow: 2,
-        },
-      },
-      {
-        breakpoint: 480,    // Small mobile
-        settings: {
-          slidesToShow: 2,  // Still show 2 cards
-        },
-      },
-    ],
-  };
+ 
 
 
   const categories = [
@@ -309,7 +280,7 @@ const Home = () => {
 
             {/* Carousel */}
 
-            <FeaturedBooksCarousel
+            <FeaturedCarousel
               featuredBooks={featuredBooks}
               cartBooks={cartBooks}
               wishlistBooks={wishlistBooks}

@@ -69,7 +69,7 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen w-full flex justify-center items-center bg-gradient-to-br from-blue-200 to-blue-50 px-4">
+    <div className="min-h-screen w-full flex justify-center items-center bg-gradient-to-br from-blue-200 to-blue-50 px-10">
       
       {/* OUTER WRAPPER - Responsive */}
       <div className="
