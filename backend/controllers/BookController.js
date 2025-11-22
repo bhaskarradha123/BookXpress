@@ -75,7 +75,7 @@ exports.getBookById = async (req, res) => {
 // =====================
 exports.addBook = async (req, res) => {
   try {
-    const { title, author, price, category, description, image } = req.body;
+    const { title, author, price, category, description, image, stock } = req.body;
 
     if (!title || !author || !price || !category || !image) {
       return res.status(400).json({ error: "All required fields must be provided" });
@@ -88,6 +88,7 @@ exports.addBook = async (req, res) => {
       category,
       description,
       image,
+      stock,
       sellerId: req.user.id,
     });
 

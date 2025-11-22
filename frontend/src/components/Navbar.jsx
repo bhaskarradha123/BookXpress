@@ -137,7 +137,7 @@ export default function Navbar() {
               {open && (
                 <div
                   className="
-                    absolute right-0 top-12 w-35 rounded-xl
+                    absolute right-0 top-12 w-35 p-3 rounded-xl
                     text-gray-700 bg-white shadow-lg
                     animate-slide-down
                   "
