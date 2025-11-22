@@ -12,7 +12,13 @@ const Wishlist = () => {
   const loadWishlist = async () => {
     try {
       const response = await getWishlist();
-      setWishlist(response.data.items || []);
+
+      // FIX: Remove null or corrupted entries
+      const cleaned = (response.data.items || []).filter(
+        (item) => item && item.bookId
+      );
+
+      setWishlist(cleaned);
     } catch (err) {
       toast.error("Failed to load wishlist");
     }
@@ -53,49 +59,54 @@ const Wishlist = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
 
-          {wishlist.map((item) => (
-            <div
-              key={item.bookId._id}
-              className="bg-white/40 backdrop-blur-xl border border-white/50 p-5 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.03]"
-            >
-              {/* Book Image */}
-              <img
-                src={item.bookId.image}
-                alt={item.bookId.title}
-                className="w-full h-60 object-cover rounded-xl shadow-md"
-              />
+          {wishlist.map((item) => {
+            // Extra safety
+            if (!item?.bookId) return null;
 
-              {/* Title */}
-              <h3 className="text-xl font-bold mt-4 text-gray-800">
-                {item.bookId.title}
-              </h3>
+            return (
+              <div
+                key={item.bookId._id}
+                className="bg-white/40 backdrop-blur-xl border border-white/50 p-5 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.03]"
+              >
+                {/* Book Image */}
+                <img
+                  src={item.bookId.image}
+                  alt={item.bookId.title}
+                  className="w-full h-60 object-cover rounded-xl shadow-md"
+                />
 
-              {/* Author */}
-              <p className="text-gray-700">{item.bookId.author}</p>
+                {/* Title */}
+                <h3 className="text-xl font-bold mt-4 text-gray-800">
+                  {item.bookId.title}
+                </h3>
 
-              {/* Price */}
-              <p className="font-bold mt-2 text-indigo-700 text-lg">
-                ₹ {item.bookId.price}
-              </p>
+                {/* Author */}
+                <p className="text-gray-700">{item.bookId.author}</p>
 
-              {/* Buttons */}
-              <div className="flex justify-between mt-5">
-                <button
-                  onClick={() => handleRemove(item.bookId._id)}
-                  className="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 hover:scale-[1.05] transition"
-                >
-                  Remove
-                </button>
+                {/* Price */}
+                <p className="font-bold mt-2 text-indigo-700 text-lg">
+                  ₹ {item.bookId.price}
+                </p>
 
-                <button
-                  onClick={() => handleAddToCart(item.bookId._id)}
-                  className="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 hover:scale-[1.05] transition"
-                >
-                  Add to Cart
-                </button>
+                {/* Buttons */}
+                <div className="flex justify-between mt-5">
+                  <button
+                    onClick={() => handleRemove(item.bookId._id)}
+                    className="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 hover:scale-[1.05] transition"
+                  >
+                    Remove
+                  </button>
+
+                  <button
+                    onClick={() => handleAddToCart(item.bookId._id)}
+                    className="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 hover:scale-[1.05] transition"
+                  >
+                    Add to Cart
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
 
         </div>
       )}

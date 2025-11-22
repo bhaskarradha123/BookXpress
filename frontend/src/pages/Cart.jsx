@@ -22,7 +22,14 @@ function Cart() {
   const fetchCart = async () => {
     try {
       const res = await API.get("/cart");
-      setCart(res.data);
+
+      // FIX: Remove null or corrupted items
+      const cleaned = {
+        ...res.data,
+        items: res.data.items.filter((i) => i && i.bookId)
+      };
+
+      setCart(cleaned);
     } catch (error) {
       console.log(error);
     }
@@ -71,7 +78,7 @@ function Cart() {
       return;
     }
 
-    if (!user.address || !user.address.street) {
+    if (!user.address?.street) {
       toast.error("Please update your address before payment");
       return;
     }
@@ -111,6 +118,7 @@ function Cart() {
   return (
     <div className="container mx-auto pt-24 pb-10 px-4">
 
+      {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-3xl font-bold">Your Cart</h2>
 
@@ -125,7 +133,7 @@ function Cart() {
       </div>
 
       {/* Checkout Modal */}
-      {showCheckout && selectedItem && (
+      {showCheckout && selectedItem && selectedItem.bookId && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-50 animate-fadeIn">
           <div className="bg-white p-6 rounded-xl shadow-2xl w-11/12 max-w-md animate-scaleIn">
             <h2 className="text-2xl font-semibold mb-4 text-gray-900">
@@ -207,70 +215,73 @@ function Cart() {
       {cart.items.length === 0 ? (
         <p className="text-lg">No items in cart</p>
       ) : (
-        cart.items.map((item) => (
-          <div className="flex justify-center w-full">
-  <div
-    key={item.bookId._id}
-    className="
-      flex items-center gap-4 bg-white border-gray-200 rounded-xl shadow-xl hover:shadow-lg 
-      transition p-4 mb-4 animate-fadeIn 
-      w-full sm:w-4/5 lg:w-3/4 max-w-3xl
-    "
-  >
+        cart.items.map((item) => {
 
+          // FIX: skip corrupted items
+          if (!item?.bookId) return null;
 
-              <img
-                src={item.bookId.image}
-                alt={item.bookId.title}
-                className="w-24 h-32 object-cover rounded-lg shadow"
-              />
-              <div className="flex-1">
-                <h3 className="font-semibold text-lg">{item.bookId.title}</h3>
-                <p className="text-gray-700">₹ {item.bookId.price}</p>
+          return (
+            <div className="flex justify-center w-full" key={item.bookId._id}>
+              <div
+                className="
+                  flex items-center gap-4 bg-white border-gray-200 rounded-xl shadow-xl hover:shadow-lg 
+                  transition p-4 mb-4 animate-fadeIn 
+                  w-full sm:w-4/5 lg:w-3/4 max-w-3xl
+                "
+              >
+                <img
+                  src={item.bookId.image}
+                  alt={item.bookId.title}
+                  className="w-24 h-32 object-cover rounded-lg shadow"
+                />
 
-                <div className="flex items-center gap-2 mt-3">
-                  <button
-                    className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded"
-                    onClick={() =>
-                      updateQuantity(
-                        item.bookId._id,
-                        item.quantity > 1 ? item.quantity - 1 : 1
-                      )
-                    }
-                  >
-                    -
-                  </button>
-                  <span className="font-semibold">{item.quantity}</span>
-                  <button
-                    className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded"
-                    onClick={() =>
-                      updateQuantity(item.bookId._id, item.quantity + 1)
-                    }
-                  >
-                    +
-                  </button>
-                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold text-lg">{item.bookId.title}</h3>
+                  <p className="text-gray-700">₹ {item.bookId.price}</p>
 
-                <div className="flex gap-3 mt-4">
-                  <button
-                    className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg shadow"
-                    onClick={() => removeItem(item.bookId._id)}
-                  >
-                    Remove
-                  </button>
-                  <button
-                    className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg shadow"
-                    onClick={() => handleCheckout(item)}
-                  >
-                    Place Order
-                  </button>
+                  <div className="flex items-center gap-2 mt-3">
+                    <button
+                      className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded"
+                      onClick={() =>
+                        updateQuantity(
+                          item.bookId._id,
+                          item.quantity > 1 ? item.quantity - 1 : 1
+                        )
+                      }
+                    >
+                      -
+                    </button>
+                    <span className="font-semibold">{item.quantity}</span>
+                    <button
+                      className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded"
+                      onClick={() =>
+                        updateQuantity(item.bookId._id, item.quantity + 1)
+                      }
+                    >
+                      +
+                    </button>
+                  </div>
+
+                  <div className="flex gap-3 mt-4">
+                    <button
+                      className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg shadow"
+                      onClick={() => removeItem(item.bookId._id)}
+                    >
+                      Remove
+                    </button>
+                    <button
+                      className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg shadow"
+                      onClick={() => handleCheckout(item)}
+                    >
+                      Place Order
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))
+          );
+        })
       )}
-
 
     </div>
   );
