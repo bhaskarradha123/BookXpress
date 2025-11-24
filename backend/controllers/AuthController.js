@@ -20,18 +20,18 @@ exports.register = async (req, res) => {
       role,
       phone
     });
-     // ✔ Send Welcome Email
-    await sendEmail(
-      user.email,
-      "Welcome to Book Store 📚",
-      `
-        <h2>Hello ${user.name}!</h2>
-        <p>Your account is successfully registered.</p>
-        <p>Enjoy browsing and buying books!</p>
-        <br>
-        <p>Regards,<br>BookStore Team</p>
-      `
-    );
+    //  // ✔ Send Welcome Email
+    // await sendEmail(
+    //   user.email,
+    //   "Welcome to Book Store 📚",
+    //   `
+    //     <h2>Hello ${user.name}!</h2>
+    //     <p>Your account is successfully registered.</p>
+    //     <p>Enjoy browsing and buying books!</p>
+    //     <br>
+    //     <p>Regards,<br>BookStore Team</p>
+    //   `
+    // );
 
     res.status(201).json({ message: "Account created successfully" });
   } catch (err) {
